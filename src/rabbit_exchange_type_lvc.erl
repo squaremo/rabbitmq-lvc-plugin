@@ -43,7 +43,7 @@ delete(_X, __Bs) -> ok.
 add_binding(#exchange{ name = XName },
             #binding{ key = RoutingKey,
                       queue_name = QueueName }) ->
-    io:format("LVC bind ~p to ~p", [XName, RoutingKey]),
+    %io:format("LVC bind ~p to ~p", [XName, RoutingKey]),
     case mnesia:dirty_read(
            ?LVC_TABLE,
            #cachekey{exchange=XName, routing_key=RoutingKey}) of
@@ -53,10 +53,10 @@ add_binding(#exchange{ name = XName },
                 {error, not_found} -> 
                     rabbit_misc:protocol_error(
                       internal_error,
-                      "could not find binding for routing key '~s'",
+                      "could not find queue '~s'",
                       [RoutingKey]);
                 {ok, #amqqueue{ pid = Q }} ->
-                    io:format("LVC deliver-on-bind '~s'", [RoutingKey]),
+                    %io:format("LVC deliver-on-bind '~s'", [RoutingKey]),
                     rabbit_amqqueue:deliver(
                       Q,
                       rabbit_basic:delivery(
