@@ -50,7 +50,6 @@ add_binding(#exchange{ name = XName },
         [] -> ok;
         [#cached{content = Content}] ->
             case rabbit_amqqueue:lookup(QueueName) of
-                %% if there's one, it's this one
                 {error, not_found} -> 
                     rabbit_misc:protocol_error(
                       internal_error,
@@ -58,13 +57,16 @@ add_binding(#exchange{ name = XName },
                       [RoutingKey]);
                 {ok, #amqqueue{ pid = Q }} ->
                     io:format("LVC deliver-on-bind '~s'", [RoutingKey]),
-                    rabbit_amqqueue:deliver(Q,
-                                          #delivery{
-                                            message = #basic_message{
-                                              content = Content,
-                                              exchange_name = XName,
-                                              routing_key = RoutingKey
-                                             }})
+                    rabbit_amqqueue:deliver(
+                      Q,
+                      rabbit_basic:delivery(
+                        %% use mandatory so that the queue responds
+                        true, false, none,
+                        #basic_message{
+                          content = Content,
+                          exchange_name = XName,
+                          routing_key = RoutingKey
+                         }))
             end
     end,
     ok.
