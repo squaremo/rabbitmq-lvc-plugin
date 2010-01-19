@@ -38,11 +38,24 @@ and finally, run the server:
     $ cd ..
     $ make run
 
+(it's possible that you still need to run
+rabbitmq-server/scripts/rabbitmq-activate-plugins; I'm not sure, since
+bug22169 has the more up-to-date plugin dependency mechanism).
+
 In the startup banner you should see a line something like
 
     starting rabbit_exchange_type_lvc                 ...done
 
-TODO py-amqp example.
+To use the LVC exchange, with e.g., py-amqp:
+
+    import amqplib.client_0_8 as amqp
+    ch = amqp.Connection().channel()
+    ch.exchange_declare("lvc", type="x-lvc")
+    ch.basic_publish(amqp.Message("value"),
+                     exchange="lvc", routing_key="rabbit")
+    ch.queue_declare("q")
+    ch.queue_bind("q", "lvc", "rabbit")
+    print ch.basic_get("q").body
 
 # Limitations
 
@@ -77,5 +90,5 @@ downstream bandwidth).
 The semantics of another kind of value-caching exchange (other than
 fanout) aren't obvious.  To choose one option though, say a
 newly-bound queue was to be given all values that match its binding
-key -- this would require every kind of exchange to supply a reverse
-routing match procedure.
+key -- this would require every supported exchange type to supply a
+reverse routing match procedure.
