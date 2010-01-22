@@ -4,11 +4,6 @@
 
 -behaviour(rabbit_exchange_behaviour).
 
--rabbit_boot_step({?MODULE,
-                   [{mfa, {rabbit_exchange_type, register, [<<"x-lvc">>, ?MODULE]}},
-                    {post, rabbit_exchange_type},
-                    {pre, exchange_recovery}]}).
-
 -export([description/0, publish/2]).
 -export([validate/1, recover/2, create/1, delete/2, add_binding/2, delete_binding/2]).
 
