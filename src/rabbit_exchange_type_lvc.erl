@@ -25,15 +25,22 @@ publish(Exchange = #exchange{name = Name},
       end),
     rabbit_exchange_type_direct:publish(Exchange, Delivery).
 
-%% TODO in recover, init, delete: manage entries for a table
-
 validate(_X) -> ok.
 
 recover(X, _Bs) -> create(X).
 
 create(_X) -> ok.
 
-delete(_X, __Bs) -> ok.
+delete(#exchange{ name = Name }, _Bs) ->
+    rabbit_misc:execute_mnesia_transaction(
+      fun() ->
+              [mnesia:delete(?LVC_TABLE, K, write) ||
+                  #cached{ key = K } <-
+                      mnesia:match_object(?LVC_TABLE,
+                                          #cached{key = #cachekey{
+                                                    exchange = Name, _ = '_' },
+                                                  _ = '_'}, write)]
+      end).
 
 add_binding(#exchange{ name = XName },
             #binding{ key = RoutingKey,
@@ -55,8 +62,7 @@ add_binding(#exchange{ name = XName },
                     rabbit_amqqueue:deliver(
                       Q,
                       rabbit_basic:delivery(
-                        %% use mandatory so that the queue responds
-                        true, false, none,
+                        false, false, none,
                         #basic_message{
                           content = Content,
                           exchange_name = XName,
