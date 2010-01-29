@@ -10,8 +10,8 @@
                    [{description, "last-value cache exchange type"},
                     {mfa, {rabbit_lvc_plugin, setup_schema, []}},
                     {mfa, {rabbit_exchange_type, register, [<<"x-lvc">>, rabbit_exchange_type_lvc]}},
-                    {post, rabbit_exchange_type},
-                    {pre, exchange_recovery}]}).
+                    {requires, rabbit_exchange_type},
+                    {enables, exchange_recovery}]}).
 
 %% private
 
