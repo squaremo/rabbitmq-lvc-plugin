@@ -1,11 +1,13 @@
 -module(rabbit_exchange_type_lvc).
--include_lib("../rabbitmq-server/include/rabbit.hrl").
+-include_lib("rabbit_common/include/rabbit.hrl").
 -include("rabbit_lvc_plugin.hrl").
 
--behaviour(rabbit_exchange_behaviour).
+-behaviour(rabbit_exchange_type).
 
 -export([description/0, publish/2]).
--export([validate/1, recover/2, create/1, delete/2, add_binding/2, delete_binding/2]).
+-export([validate/1, recover/2, create/1, delete/2, add_binding/2, remove_bindings/2]).
+
+-include_lib("rabbit_common/include/rabbit_exchange_type_spec.hrl").
 
 description() ->
     {{name, <<"lvc">>},
@@ -72,4 +74,4 @@ add_binding(#exchange{ name = XName },
     end,
     ok.
 
-delete_binding(_X, _B) -> ok.
+remove_bindings(_X, _Bs) -> ok.
