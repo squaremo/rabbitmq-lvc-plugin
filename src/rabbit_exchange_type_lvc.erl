@@ -5,7 +5,8 @@
 -behaviour(rabbit_exchange_type).
 
 -export([description/0, publish/2]).
--export([validate/1, recover/2, create/1, delete/2, add_binding/2, remove_bindings/2]).
+-export([validate/1, recover/2, create/1, delete/2, add_binding/2, remove_bindings/2,
+         assert_args_equivalence/2]).
 
 -include_lib("rabbit_common/include/rabbit_exchange_type_spec.hrl").
 
@@ -75,3 +76,6 @@ add_binding(#exchange{ name = XName },
     ok.
 
 remove_bindings(_X, _Bs) -> ok.
+
+assert_args_equivalence(X, Args) ->
+    rabbit_exchange_type_direct:assert_args_equivalence(X, Args).
