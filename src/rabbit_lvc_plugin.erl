@@ -7,8 +7,8 @@
 -rabbit_boot_step({?MODULE,
                    [{description, "last-value cache exchange type"},
                     {mfa, {rabbit_lvc_plugin, setup_schema, []}},
-                    {mfa, {rabbit_exchange_type_registry, register, [<<"x-lvc">>, rabbit_exchange_type_lvc]}},
-                    {requires, rabbit_exchange_type_registry},
+                    {mfa, {rabbit_registry, register, [exchange, <<"x-lvc">>, rabbit_exchange_type_lvc]}},
+                    {requires, rabbit_registry},
                     {enables, exchange_recovery}]}).
 
 %% private
