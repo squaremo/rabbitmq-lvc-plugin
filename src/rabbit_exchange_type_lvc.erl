@@ -66,11 +66,8 @@ add_binding(?TX, #exchange{ name = XName },
                       [RoutingKey]);
                 {ok, #amqqueue{ pid = Q }} ->
                     %io:format("LVC deliver-on-bind '~s'", [RoutingKey]),
-                    Message = #basic_message{
-                          content = Content,
-                          exchange_name = XName,
-                          routing_key = RoutingKey
-                         },
+                    Message = rabbit_basic:message(
+                                XName, RoutingKey, [], Content),
                     rabbit_amqqueue:deliver( Q,
                       rabbit_basic:delivery(false, false, none, Message, undefined)
                     )
