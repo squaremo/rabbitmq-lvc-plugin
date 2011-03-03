@@ -1,8 +1,7 @@
 # Last value caching exchange
 
 This is a pretty simple implementation of a last value cache using
-RabbitMQ's pluggable exchange types feature.  (At the minute this
-feature is experimental, but it may end up in releases after 1.7.1.)
+RabbitMQ's pluggable exchange types feature.
 
 The last value cache is intended to solve problems like the following:
 say I am using messaging to send notifications of some changing values
@@ -15,16 +14,13 @@ the last value that was published with each routing key, and when a
 queue is bound, it automatically enqueues the last value for the
 binding key.
 
-# How to use it
+# How to build it
 
 Set up rabbitmq-public-umbrella, as per the instructions
-at http://www.rabbitmq.com/plugin-development.html, and update
-rabbitmq-server to the "exchange types" branch:
+at http://www.rabbitmq.com/plugin-development.html:
 
     $ hg clone http://hg.rabbitmq.com/rabbitmq-public-umbrella
     $ cd rabbitmq-public-umbrella ; make checkout ; make
-    $ (cd rabbitmq-server ; hg up -C bug22169 ; make -j)
-    $ (cd ../rabbitmq-erlang-client ; make clean && make)
 
 Then get the LVC plugin and symlink it into plugins:
 
@@ -37,10 +33,6 @@ Then get the LVC plugin and symlink it into plugins:
 and finally, run the server:
     $ cd ..
     $ make run
-
-(it's possible that you still need to run
-rabbitmq-server/scripts/rabbitmq-activate-plugins; I'm not sure, since
-bug22169 has the more up-to-date plugin dependency mechanism).
 
 In the startup banner you should see a line something like
 
