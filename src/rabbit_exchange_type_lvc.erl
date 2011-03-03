@@ -17,16 +17,22 @@ description() ->
      {description, <<"Last-value cache exchange.">>}].
 
 route(Exchange = #exchange{name = Name},
-        Delivery = #delivery{message = #basic_message{
-                               routing_key = RK,
-                               content = Content
-                              }}) ->
+      Delivery = #delivery{message = #basic_message{
+                             routing_key = RK,
+                             content = Content
+                            }}) ->
+    Keys = case RK of
+               CC when is_list(CC) -> CC;
+               To                 -> [To]
+           end,
     rabbit_misc:execute_mnesia_transaction(
-      fun () -> 
-              ok = mnesia:write(?LVC_TABLE,
-                                #cached{key = #cachekey{exchange=Name, routing_key=RK},
-                                        content = Content},
-                                write)
+      fun () ->
+              [mnesia:write(?LVC_TABLE,
+                            #cached{key = #cachekey{exchange=Name,
+                                                    routing_key=K},
+                                    content = Content},
+                            write) ||
+                  K <- Keys]
       end),
     rabbit_exchange_type_direct:route(Exchange, Delivery).
 
@@ -52,31 +58,41 @@ delete(_Tx, _X, _Bs) ->
 add_binding(?TX, #exchange{ name = XName },
             #binding{ key = RoutingKey,
                       destination = QueueName }) ->
-    %io:format("LVC bind ~p to ~p", [XName, RoutingKey]),
-    case mnesia:dirty_read(
-           ?LVC_TABLE,
-           #cachekey{exchange=XName, routing_key=RoutingKey}) of
-        [] -> ok;
-        [#cached{content = Content}] ->
-            case rabbit_amqqueue:lookup(QueueName) of
-                {error, not_found} -> 
-                    rabbit_misc:protocol_error(
-                      internal_error,
-                      "could not find queue '~s'",
-                      [RoutingKey]);
-                {ok, #amqqueue{ pid = Q }} ->
-                    %io:format("LVC deliver-on-bind '~s'", [RoutingKey]),
-                    Message = rabbit_basic:message(
-                                XName, RoutingKey, [], Content),
-                    rabbit_amqqueue:deliver( Q,
-                      rabbit_basic:delivery(false, false, none, Message, undefined)
-                    )
-            end
+    case rabbit_amqqueue:lookup(QueueName) of
+        {error, not_found} ->
+            rabbit_misc:protocol_error(
+              internal_error,
+              "could not find queue '~s'",
+              [QueueName]);
+        {ok, #amqqueue{ pid = Q }} ->
+            %% RabbitMQ doesn't support multiple binding keys YET
+            Keys = case RoutingKey of
+                       CC when is_list(CC) -> CC;
+                       To                 -> [To]
+                   end,
+            Values = lists:foldl(
+                       fun (Key, Msgs) ->
+                               case mnesia:dirty_read(
+                                      ?LVC_TABLE,
+                                      #cachekey{exchange=XName,
+                                                routing_key=Key}) of
+                                   [] ->
+                                       Msgs;
+                                   [#cached{content = Content}] ->
+                                       {Props, Payload} =
+                                           rabbit_basic:from_content(Content),
+                                       [rabbit_basic:message(
+                                          XName, Key, Props, Payload) | Msgs]
+                               end
+                       end,
+                       [], Keys),
+            [rabbit_amqqueue:deliver(
+               Q, rabbit_basic:delivery(false, false, none, V, undefined)) ||
+                V <- Values]
     end,
     ok;
 add_binding(_Tx, _X, _B) ->
-	ok.
-
+    ok.
 
 remove_bindings(_Tx, _X, _Bs) -> ok.
 
