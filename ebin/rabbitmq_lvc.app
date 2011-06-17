@@ -1,6 +1,6 @@
-{application, rabbit_lvc_plugin,
+{application, rabbitmq_lvc,
  [{description, "RabbitMQ last-value cache exchange plugin"},
-  {vsn, "0.01"},
+  {vsn, "0.0.1"},
   {modules, [
     rabbit_lvc_plugin,
     rabbit_exchange_type_lvc
