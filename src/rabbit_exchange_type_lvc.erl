@@ -5,10 +5,8 @@
 -behaviour(rabbit_exchange_type).
 
 -export([description/0, serialise_events/0, route/2]).
--export([validate/1, create/2, recover/2, delete/3,
+-export([validate/1, create/2, recover/2, delete/3, policy_changed/3,
          add_binding/3, remove_bindings/3, assert_args_equivalence/2]).
-
--include_lib("rabbit_common/include/rabbit_exchange_type_spec.hrl").
 
 description() ->
     [{name, <<"lvc">>},
@@ -50,6 +48,8 @@ delete(transaction, #exchange{ name = Name }, _Bs) ->
     ok;
 delete(_Tx, _X, _Bs) ->
 	ok.
+
+policy_changed(_Tx, _X1, _X2) -> ok.
 
 add_binding(none, #exchange{ name = XName },
             #binding{ key = RoutingKey,
