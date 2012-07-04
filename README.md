@@ -24,7 +24,7 @@ at http://www.rabbitmq.com/plugin-development.html:
 
 Then get the LVC plugin and symlink it into plugins:
 
-    $ git clone git://github.com/squaremo/rabbitmq-lvc-plugin.git
+    $ git clone git://github.com/simonmacmullen/rabbitmq-lvc-plugin.git
     $ (cd rabbitmq-lvc-plugin ; make)
     $ mkdir -p rabbitmq-server/plugins
     $ cd rabbitmq-server/plugins
