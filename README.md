@@ -1,5 +1,9 @@
 # Last value caching exchange
 
+(**NB**: Simon keeps a fork of this which is more likely to be up-to-date with
+RabbitMQ releases, at
+https://github.com/simonmacmullen/rabbitmq-lvc-plugin)
+
 This is a pretty simple implementation of a last value cache using
 RabbitMQ's pluggable exchange types feature.
 
