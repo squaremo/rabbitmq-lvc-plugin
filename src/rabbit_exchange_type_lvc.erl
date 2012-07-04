@@ -60,7 +60,7 @@ add_binding(none, #exchange{ name = XName },
               internal_error,
               "could not find queue '~s'",
               [QueueName]);
-        {ok, #amqqueue{ pid = Q }} ->
+        {ok, Q = #amqqueue{}} ->
             case mnesia:dirty_read(
                    ?LVC_TABLE,
                    #cachekey{ exchange=XName,
@@ -73,7 +73,7 @@ add_binding(none, #exchange{ name = XName },
                     Msg = rabbit_basic:message(
                             XName, RoutingKey, Props, Payload),
                     rabbit_amqqueue:deliver(
-                      Q, rabbit_basic:delivery(false, false, Msg, undefined))
+                      [Q], rabbit_basic:delivery(false, false, Msg, undefined))
             end
     end,
     ok;
