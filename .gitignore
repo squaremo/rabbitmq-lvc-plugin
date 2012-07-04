@@ -2,3 +2,5 @@ build
 dist
 *.beam
 ebin/*.app
+cover/*
+*~
