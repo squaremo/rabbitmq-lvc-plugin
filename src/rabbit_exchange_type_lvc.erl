@@ -9,7 +9,7 @@
          add_binding/3, remove_bindings/3, assert_args_equivalence/2]).
 
 description() ->
-    [{name, <<"lvc">>},
+    [{name, <<"x-lvc">>},
      {description, <<"Last-value cache exchange.">>}].
 
 serialise_events() -> false.
