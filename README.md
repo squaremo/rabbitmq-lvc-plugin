@@ -16,6 +16,8 @@ binding key.
 
 # How to build it
 
+(Look in the compiled/ directory, maybe you won't have to.)
+
 Set up rabbitmq-public-umbrella, as per the instructions
 at http://www.rabbitmq.com/plugin-development.html
 
