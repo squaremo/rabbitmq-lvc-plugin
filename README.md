@@ -17,7 +17,7 @@ binding key.
 # How to build it
 
 Set up rabbitmq-public-umbrella, as per the instructions
-at http://www.rabbitmq.com/plugin-development.html:
+at http://www.rabbitmq.com/plugin-development.html
 
     $ hg clone http://hg.rabbitmq.com/rabbitmq-public-umbrella
     $ cd rabbitmq-public-umbrella ; make checkout ; make
