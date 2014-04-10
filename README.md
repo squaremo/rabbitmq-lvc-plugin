@@ -14,31 +14,17 @@ the last value that was published with each routing key, and when a
 queue is bound, it automatically enqueues the last value for the
 binding key.
 
-# How to build it
+# Downloading
 
-(Look in the compiled/ directory, maybe you won't have to.)
+You can download a pre-built binary of this plugin from
+http://www.rabbitmq.com/community-plugins.html.
 
-Set up rabbitmq-public-umbrella, as per the instructions
-at http://www.rabbitmq.com/plugin-development.html
+# Building
 
-    $ hg clone http://hg.rabbitmq.com/rabbitmq-public-umbrella
-    $ cd rabbitmq-public-umbrella ; make checkout ; make
+You can build and install it like any other plugin (see
+[the plugin development guide](http://www.rabbitmq.com/plugin-development.html)).
 
-Then get the LVC plugin and symlink it into plugins:
-
-    $ git clone git://github.com/simonmacmullen/rabbitmq-lvc-plugin.git
-    $ (cd rabbitmq-lvc-plugin ; make)
-    $ mkdir -p rabbitmq-server/plugins
-    $ cd rabbitmq-server/plugins
-    $ ln -s ../../rabbitmq-lvc-plugin ./
-
-and finally, run the server:
-    $ cd ..
-    $ make run
-
-In the startup banner you should see a line something like
-
-    starting rabbit_exchange_type_lvc                 ...done
+# Use
 
 To use the LVC exchange, with e.g., py-amqp:
 
