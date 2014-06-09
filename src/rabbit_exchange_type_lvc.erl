@@ -75,7 +75,7 @@ add_binding(none, #exchange{ name = XName },
                     Msg = rabbit_basic:message(
                             XName, RoutingKey, Props, Payload),
                     rabbit_amqqueue:deliver(
-                      [Q], rabbit_basic:delivery(false, Msg, undefined))
+                      [Q], rabbit_basic:delivery(false, false, Msg, undefined))
             end
     end,
     ok;
