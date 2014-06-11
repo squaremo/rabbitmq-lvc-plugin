@@ -8,6 +8,7 @@
                    [{description, "last-value cache exchange type"},
                     {mfa, {rabbit_lvc_plugin, setup_schema, []}},
                     {mfa, {rabbit_registry, register, [exchange, <<"x-lvc">>, rabbit_exchange_type_lvc]}},
+                    {cleanup, {rabbit_registry, unregister, [exchange, <<"x-lvc">>]}},
                     {requires, rabbit_registry},
                     {enables, recovery}]}).
 
