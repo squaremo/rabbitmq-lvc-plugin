@@ -15,13 +15,13 @@
 %% private
 
 setup_schema() ->
-    case mnesia:create_table(?LVC_TABLE,
-                             [{attributes, record_info(fields, cached)},
-                              {record_name, cached},
-                              {type, set}]) of
-        {atomic, ok} -> ok;
-        {aborted, {already_exists, ?LVC_TABLE}} -> ok
-    end.
+    mnesia:create_table(?LVC_TABLE,
+                        [{attributes, record_info(fields, cached)},
+                         {record_name, cached},
+                         {type, set}]),
+    mnesia:add_table_copy(?LVC_TABLE, node(), ram_copies),
+    mnesia:wait_for_tables([?LVC_TABLE], 30000),
+    ok.
 
 
 disable_plugin() ->
