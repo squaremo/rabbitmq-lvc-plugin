@@ -6,7 +6,7 @@
 
 -export([description/0, serialise_events/0, route/2]).
 -export([validate/1, validate_binding/2,
-         create/2, recover/2, delete/3, policy_changed/3,
+         create/2, recover/2, delete/3, policy_changed/2,
          add_binding/3, remove_bindings/3, assert_args_equivalence/2]).
 
 description() ->
@@ -51,7 +51,7 @@ delete(transaction, #exchange{ name = Name }, _Bs) ->
 delete(_Tx, _X, _Bs) ->
 	ok.
 
-policy_changed(_Tx, _X1, _X2) -> ok.
+policy_changed(_X1, _X2) -> ok.
 
 add_binding(none, #exchange{ name = XName },
             #binding{ key = RoutingKey,
