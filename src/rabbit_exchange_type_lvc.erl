@@ -16,10 +16,8 @@ description() ->
 serialise_events() -> false.
 
 route(Exchange = #exchange{name = Name},
-      Delivery = #delivery{message = #basic_message{
-                             routing_keys = RKs,
-                             content = Content
-                            }}) ->
+      Delivery = #delivery{message = Msg}) ->
+    #basic_message{routing_keys = RKs} = Msg,
     Keys = case RKs of
                CC when is_list(CC) -> CC;
                To                 -> [To]
@@ -29,7 +27,7 @@ route(Exchange = #exchange{name = Name},
               [mnesia:write(?LVC_TABLE,
                             #cached{key = #cachekey{exchange=Name,
                                                     routing_key=K},
-                                    content = Content},
+                                    content = Msg},
                             write) ||
                   K <- Keys]
       end),
@@ -69,11 +67,7 @@ add_binding(none, #exchange{ name = XName },
                              routing_key=RoutingKey }) of
                 [] ->
                     ok;
-                [#cached{content = Content}] ->
-                    {Props, Payload} =
-                        rabbit_basic:from_content(Content),
-                    Msg = rabbit_basic:message(
-                            XName, RoutingKey, Props, Payload),
+                [#cached{content = Msg}] ->
                     rabbit_amqqueue:deliver(
                       [Q], rabbit_basic:delivery(false, false, Msg, undefined))
             end
