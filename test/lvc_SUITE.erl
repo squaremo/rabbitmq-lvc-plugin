@@ -84,9 +84,34 @@ lvc(Config) ->
 %% Utiliies.
 %% -------------------------------------------------------------------
 
+lvc_e2e_test() ->
+    {ok, Conn} = amqp_connection:start(#amqp_params_network{}),
+    {ok, Ch} = amqp_connection:open_channel(
+                 Conn, {amqp_direct_consumer, [self()]}),
+    LvcExchange = <<"test-lvc-exchange">>,
+    RK = <<"key1">>,
+    Payload = <<"Hello world">>,
+    exchange_declare(Ch, LvcExchange),
+    Exchange = <<"test-exchange">>,
+    exchange_declare(Ch, Exchange, <<"fanout">>),
+    Q1 = queue_declare(Ch),
+    Q2 = queue_declare(Ch),
+    bind(Ch, Exchange, <<"">>, Q1),
+    bind(Ch, Exchange, <<"">>, Q2),
+    publish(Ch, LvcExchange, RK, Payload),
+    exchange_bind(Ch, Exchange, RK, LvcExchange),
+    expect(Ch, Q1, Payload),
+    expect(Ch, Q2, Payload),
+    amqp_connection:close(Conn).
+
 exchange_declare(Ch, X) ->
     amqp_channel:call(Ch, #'exchange.declare'{exchange    = X,
                                               type        = <<"x-lvc">>,
+                                              auto_delete = true}).
+
+exchange_declare(Ch, X, Type) ->
+    amqp_channel:call(Ch, #'exchange.declare'{exchange    = X,
+                                              type        = Type,
                                               auto_delete = true}).
 
 queue_declare(Ch) ->
@@ -111,3 +136,8 @@ bind(Ch, X, RK, Q) ->
     amqp_channel:call(Ch, #'queue.bind'{queue       = Q,
                                         exchange    = X,
                                         routing_key = RK}).
+
+exchange_bind(Ch, D, RK, S) ->
+    amqp_channel:call(Ch, #'exchange.bind'{source       = S,
+                                           destination  = D,
+                                           routing_key  = RK}).

@@ -82,14 +82,36 @@ delete(_Tx, _X, _Bs) ->
 policy_changed(_X1, _X2) -> ok.
 
 add_binding(none, #exchange{ name = XName },
-            #binding{ key = RoutingKey,
-                      destination = QueueName }) ->
-    case rabbit_amqqueue:lookup(QueueName) of
+                  #binding{ key = RoutingKey,
+                            destination = DestinationName }) ->
+    case rabbit_amqqueue:lookup(DestinationName) of
         {error, not_found} ->
-            rabbit_misc:protocol_error(
-              internal_error,
-              "could not find queue '~s'",
-              [QueueName]);
+
+            case rabbit_exchange:lookup(DestinationName) of
+              {error, not_fount} ->
+                rabbit_misc:protocol_error(
+                  internal_error,
+                  "could not find destination '~s'",
+                  [DestinationName]);
+
+              {ok, E = #exchange{}} ->
+
+                case mnesia:dirty_read(
+                       ?LVC_TABLE,
+                       #cachekey{ exchange=XName,
+                                  routing_key=RoutingKey }) of
+                    [] ->
+                        ok;
+                    [#cached{content = Msg}] ->
+                        Delivery = rabbit_basic:delivery(
+                          false, false, Msg, undefined),
+                        Qs = rabbit_amqqueue:lookup(
+                          rabbit_exchange:route(E, Delivery)),
+                        rabbit_amqqueue:deliver(Qs, Delivery)
+                end
+            end;
+
+
         {ok, Q = #amqqueue{}} ->
             case mnesia:dirty_read(
                    ?LVC_TABLE,
