@@ -7,4 +7,5 @@
   ]},
   {registered, []},
   {env, []},
+  {broker_version_requirements, ["3.6.0", "3.7.0"]},
   {applications, [kernel, stdlib, rabbit, mnesia]}]}.
