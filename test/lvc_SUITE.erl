@@ -14,15 +14,60 @@
 %% Copyright (c) 2007-2012 VMware, Inc.  All rights reserved.
 %%
 
--module(rabbit_lvc_test).
+-module(lvc_SUITE).
 
 -include_lib("eunit/include/eunit.hrl").
+-include_lib("common_test/include/ct.hrl").
 -include_lib("amqp_client/include/amqp_client.hrl").
 
-lvc_test() ->
-    {ok, Conn} = amqp_connection:start(#amqp_params_network{}),
-    {ok, Ch} = amqp_connection:open_channel(
-                 Conn, {amqp_direct_consumer, [self()]}),
+-compile(export_all).
+
+all() ->
+    [
+     {group, non_parallel_tests}
+    ].
+
+groups() ->
+    [
+     {non_parallel_tests, [], [
+                               lvc
+                              ]}
+    ].
+
+%% -------------------------------------------------------------------
+%% Testsuite setup/teardown.
+%% -------------------------------------------------------------------
+
+init_per_suite(Config) ->
+    rabbit_ct_helpers:log_environment(),
+    Config1 = rabbit_ct_helpers:set_config(Config, [
+                                                    {rmq_nodename_suffix, ?MODULE}
+                                                   ]),
+    rabbit_ct_helpers:run_setup_steps(Config1,
+                                      rabbit_ct_broker_helpers:setup_steps() ++
+                                      rabbit_ct_client_helpers:setup_steps()).
+
+end_per_suite(Config) ->
+    rabbit_ct_helpers:run_teardown_steps(Config,
+                                         rabbit_ct_client_helpers:teardown_steps() ++
+                                         rabbit_ct_broker_helpers:teardown_steps()).
+
+init_per_group(_, Config) -> Config.
+
+end_per_group(_, Config) -> Config.
+
+init_per_testcase(Testcase, Config) ->
+    rabbit_ct_helpers:testcase_started(Config, Testcase).
+
+end_per_testcase(Testcase, Config) ->
+    rabbit_ct_helpers:testcase_finished(Config, Testcase).
+
+%% -------------------------------------------------------------------
+%% Testcases.
+%% -------------------------------------------------------------------
+
+lvc(Config) ->
+    Ch = rabbit_ct_client_helpers:open_channel(Config),
     X = <<"test-lvc-exchange">>,
     RK = <<"test">>,
     Payload = <<"Hello world">>,
@@ -33,8 +78,11 @@ lvc_test() ->
     publish(Ch, X, RK, Payload),
     bind(Ch, X, RK, Q2),
     expect(Ch, Q1, Payload),
-    expect(Ch, Q2, Payload),
-    amqp_connection:close(Conn).
+    expect(Ch, Q2, Payload).
+
+%% -------------------------------------------------------------------
+%% Utiliies.
+%% -------------------------------------------------------------------
 
 exchange_declare(Ch, X) ->
     amqp_channel:call(Ch, #'exchange.declare'{exchange    = X,
