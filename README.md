@@ -14,10 +14,18 @@ the last value that was published with each routing key, and when a
 queue is bound, it automatically enqueues the last value for the
 binding key.
 
-## Binary Builds
 
-You can download a pre-built binary of this plugin from
+## Supported RabbitMQ Versions
+
+This plugin targets RabbitMQ 3.6.0 and later versions.
+
+## Installation
+
+Binary builds of this plugin from
 the [Community Plugins page](http://www.rabbitmq.com/community-plugins.html).
+
+See [Plugin Installation](http://www.rabbitmq.com/installing-plugins.html) for details
+about how to install plugins that do not ship with RabbitMQ.
 
 ## Building from Source
 
@@ -57,7 +65,7 @@ the last value.  For this reason, I'm thinking of tagging the last
 value messages so that clients can fast-forward to it, or ignore it,
 if necessary.
 
-## Values v. deltas
+### Values v. deltas
 
 One question that springs to mind when considering last value caches
 is "what if I'm sending deltas rather than the whole value?".  Thre
@@ -66,7 +74,7 @@ using two exchanges and posting full values to the LVC (from the
 originating process -- presumably you'd be using deltas to save on
 downstream bandwidth).
 
-## Direct exchanges only
+### Direct exchanges only
 
 The semantics of another kind of value-caching exchange (other than
 fanout) aren't obvious.  To choose one option though, say a
