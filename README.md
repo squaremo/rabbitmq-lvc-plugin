@@ -14,17 +14,17 @@ the last value that was published with each routing key, and when a
 queue is bound, it automatically enqueues the last value for the
 binding key.
 
-# Downloading
+## Binary Builds
 
 You can download a pre-built binary of this plugin from
-http://www.rabbitmq.com/community-plugins.html.
+the [Community Plugins page](http://www.rabbitmq.com/community-plugins.html).
 
-# Building
+## Building from Source
 
 You can build and install it like any other plugin (see
 [the plugin development guide](http://www.rabbitmq.com/plugin-development.html)).
 
-# Use
+## Usage
 
 To use the LVC exchange, with e.g., py-amqp:
 
@@ -37,11 +37,12 @@ To use the LVC exchange, with e.g., py-amqp:
     ch.queue_bind("q", "lvc", "rabbit")
     print ch.basic_get("q").body
 
-# Limitations
+## Limitations
 
-## "Recent value cache"
+### "Recent value cache"
 
-AMQP is inherently racey.  It is quite possible to see different
+Message publishing in AMQP 0-9-1 is asynchronous by design and thus introduces natural race conditions
+when there's more than one publisher.  It is quite possible to see different
 last-values but the same subsequent message stream, from different
 clients.
 
