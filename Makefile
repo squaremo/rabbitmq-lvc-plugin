@@ -1,4 +1,5 @@
 PROJECT = rabbitmq_lvc
+PROJECT_DESCRIPTION = RabbitMQ last value cache exchange plugin
 
 DEPS = rabbit_common rabbit
 TEST_DEPS = rabbitmq_ct_helpers rabbitmq_ct_client_helpers amqp_client
