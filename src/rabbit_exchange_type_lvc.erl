@@ -1,4 +1,5 @@
 -module(rabbit_exchange_type_lvc).
+
 -include_lib("rabbit_common/include/rabbit.hrl").
 -include("rabbit_lvc_plugin.hrl").
 
@@ -8,12 +9,40 @@
 -export([validate/1, validate_binding/2,
          create/2, recover/2, delete/3, policy_changed/2,
          add_binding/3, remove_bindings/3, assert_args_equivalence/2]).
+-export([register/0, unregister/0]).
+
+-rabbit_boot_step({?MODULE,
+                   [{description, "Last-value cache (LVC) exchange type"},
+                    {mfa, {?MODULE, register, []}},
+                    {cleanup, {?MODULE, unregister, []}},
+                    {requires, rabbit_registry},
+                    {enables, kernel_ready}]}).
+
+%% private
+
+register() ->
+    mnesia:create_table(?LVC_TABLE,
+                        [{attributes, record_info(fields, cached)},
+                         {record_name, cached},
+                         {type, set}]),
+    mnesia:add_table_copy(?LVC_TABLE, node(), ram_copies),
+    mnesia:wait_for_tables([?LVC_TABLE], 30000),
+
+    rabbit_registry:register(exchange, <<"x-lvc">>, ?MODULE),
+
+    ok.
+
+
+unregister() ->
+    rabbit_registry:unregister(exchange, <<"x-lvc">>),
+    mnesia:delete_table(?LVC_TABLE),
+    ok.
+
+
 
 description() ->
     [{name, <<"x-lvc">>},
      {description, <<"Last-value cache exchange.">>}].
-
-serialise_events() -> false.
 
 route(Exchange = #exchange{name = Name},
       Delivery = #delivery{message = Msg}) ->
@@ -33,6 +62,7 @@ route(Exchange = #exchange{name = Name},
       end),
     rabbit_exchange_type_direct:route(Exchange, Delivery).
 
+serialise_events() -> false.
 validate(_X) -> ok.
 validate_binding(_X, _B) -> ok.
 create(_Tx, _X) -> ok.
@@ -63,8 +93,8 @@ add_binding(none, #exchange{ name = XName },
         {ok, Q = #amqqueue{}} ->
             case mnesia:dirty_read(
                    ?LVC_TABLE,
-                   #cachekey{ exchange=XName,
-                             routing_key=RoutingKey }) of
+                   #cachekey{exchange = XName,
+                             routing_key = RoutingKey }) of
                 [] ->
                     ok;
                 [#cached{content = Msg}] ->
@@ -79,4 +109,4 @@ add_binding(_Tx, _X, _B) ->
 remove_bindings(_Tx, _X, _Bs) -> ok.
 
 assert_args_equivalence(X, Args) ->
-    rabbit_exchange_type_direct:assert_args_equivalence(X, Args).
+    rabbit_exchange:assert_args_equivalence(X, Args).
