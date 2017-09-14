@@ -1,5 +1,5 @@
-PROJECT = rabbitmq_lvc
-PROJECT_DESCRIPTION = RabbitMQ last value cache exchange plugin
+PROJECT = rabbitmq_lvc_exchange
+PROJECT_DESCRIPTION = RabbitMQ Last Value Cache exchange
 
 define PROJECT_APP_EXTRA_KEYS
 	{broker_version_requirements, []}
