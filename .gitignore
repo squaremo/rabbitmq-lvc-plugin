@@ -9,4 +9,4 @@
 /logs/
 /plugins/
 
-/rabbitmq_lvc.d
+/rabbitmq_lvc_exchange.d
