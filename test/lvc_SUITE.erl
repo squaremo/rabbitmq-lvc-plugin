@@ -30,7 +30,8 @@ all() ->
 groups() ->
     [
      {non_parallel_tests, [], [
-                               lvc
+                               lvc,
+                               lvc_e2e
                               ]}
     ].
 
@@ -80,29 +81,27 @@ lvc(Config) ->
     expect(Ch, Q1, Payload),
     expect(Ch, Q2, Payload).
 
-%% -------------------------------------------------------------------
-%% Utiliies.
-%% -------------------------------------------------------------------
-
-lvc_e2e_test() ->
-    {ok, Conn} = amqp_connection:start(#amqp_params_network{}),
-    {ok, Ch} = amqp_connection:open_channel(
-                 Conn, {amqp_direct_consumer, [self()]}),
-    LvcExchange = <<"test-lvc-exchange">>,
+lvc_e2e(Config) ->
+    Ch = rabbit_ct_client_helpers:open_channel(Config),
+    LvcX = <<"test-lvc-exchange">>,
+    X = <<"test-exchange">>,
     RK = <<"key1">>,
     Payload = <<"Hello world">>,
-    exchange_declare(Ch, LvcExchange),
-    Exchange = <<"test-exchange">>,
-    exchange_declare(Ch, Exchange, <<"fanout">>),
+    exchange_declare(Ch, LvcX),
+    exchange_declare(Ch, X, <<"fanout">>),
     Q1 = queue_declare(Ch),
     Q2 = queue_declare(Ch),
-    bind(Ch, Exchange, <<"">>, Q1),
-    bind(Ch, Exchange, <<"">>, Q2),
-    publish(Ch, LvcExchange, RK, Payload),
-    exchange_bind(Ch, Exchange, RK, LvcExchange),
+    bind(Ch, X, <<"">>, Q1),
+    bind(Ch, X, <<"">>, Q2),
+    publish(Ch, LvcX, RK, Payload),
+    exchange_bind(Ch, X, RK, LvcX),
     expect(Ch, Q1, Payload),
-    expect(Ch, Q2, Payload),
-    amqp_connection:close(Conn).
+    expect(Ch, Q2, Payload).
+
+
+%% -------------------------------------------------------------------
+%% Helpers
+%% -------------------------------------------------------------------
 
 exchange_declare(Ch, X) ->
     amqp_channel:call(Ch, #'exchange.declare'{exchange    = X,
