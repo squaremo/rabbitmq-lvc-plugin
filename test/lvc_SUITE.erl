@@ -79,7 +79,8 @@ lvc(Config) ->
     publish(Ch, X, RK, Payload),
     bind(Ch, X, RK, Q2),
     expect(Ch, Q1, Payload),
-    expect(Ch, Q2, Payload).
+    expect(Ch, Q2, Payload),
+    rabbit_ct_client_helpers:close_channel(Ch).
 
 lvc_e2e(Config) ->
     Ch = rabbit_ct_client_helpers:open_channel(Config),
@@ -96,7 +97,8 @@ lvc_e2e(Config) ->
     publish(Ch, LvcX, RK, Payload),
     exchange_bind(Ch, X, RK, LvcX),
     expect(Ch, Q1, Payload),
-    expect(Ch, Q2, Payload).
+    expect(Ch, Q2, Payload),
+    rabbit_ct_client_helpers:close_channel(Ch).
 
 
 %% -------------------------------------------------------------------
