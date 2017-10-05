@@ -30,7 +30,8 @@ all() ->
 groups() ->
     [
      {non_parallel_tests, [], [
-                               lvc
+                               lvc,
+                               lvc_e2e
                               ]}
     ].
 
@@ -80,13 +81,36 @@ lvc(Config) ->
     expect(Ch, Q1, Payload),
     expect(Ch, Q2, Payload).
 
+lvc_e2e(Config) ->
+    Ch = rabbit_ct_client_helpers:open_channel(Config),
+    LvcX = <<"test-lvc-exchange">>,
+    X = <<"test-exchange">>,
+    RK = <<"key1">>,
+    Payload = <<"Hello world">>,
+    exchange_declare(Ch, LvcX),
+    exchange_declare(Ch, X, <<"fanout">>),
+    Q1 = queue_declare(Ch),
+    Q2 = queue_declare(Ch),
+    bind(Ch, X, <<"">>, Q1),
+    bind(Ch, X, <<"">>, Q2),
+    publish(Ch, LvcX, RK, Payload),
+    exchange_bind(Ch, X, RK, LvcX),
+    expect(Ch, Q1, Payload),
+    expect(Ch, Q2, Payload).
+
+
 %% -------------------------------------------------------------------
-%% Utiliies.
+%% Helpers
 %% -------------------------------------------------------------------
 
 exchange_declare(Ch, X) ->
     amqp_channel:call(Ch, #'exchange.declare'{exchange    = X,
                                               type        = <<"x-lvc">>,
+                                              auto_delete = true}).
+
+exchange_declare(Ch, X, Type) ->
+    amqp_channel:call(Ch, #'exchange.declare'{exchange    = X,
+                                              type        = Type,
                                               auto_delete = true}).
 
 queue_declare(Ch) ->
@@ -111,3 +135,8 @@ bind(Ch, X, RK, Q) ->
     amqp_channel:call(Ch, #'queue.bind'{queue       = Q,
                                         exchange    = X,
                                         routing_key = RK}).
+
+exchange_bind(Ch, D, RK, S) ->
+    amqp_channel:call(Ch, #'exchange.bind'{source       = S,
+                                           destination  = D,
+                                           routing_key  = RK}).
