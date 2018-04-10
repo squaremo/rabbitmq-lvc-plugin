@@ -18,29 +18,25 @@ the last value that was published with each routing key, and when a
 queue is bound, it automatically enqueues the last value for the
 binding key.
 
-# How to build it
 
-Set up rabbitmq-public-umbrella, as per the instructions
-at http://www.rabbitmq.com/plugin-development.html:
+## Supported RabbitMQ Versions
 
-    $ hg clone http://hg.rabbitmq.com/rabbitmq-public-umbrella
-    $ cd rabbitmq-public-umbrella ; make checkout ; make
+This plugin targets RabbitMQ 3.6.0 and later versions.
 
-Then get the LVC plugin and symlink it into plugins:
+## Installation
 
-    $ git clone git://github.com/squaremo/rabbitmq-lvc-plugin.git
-    $ (cd rabbitmq-lvc-plugin ; make)
-    $ mkdir -p rabbitmq-server/plugins
-    $ cd rabbitmq-server/plugins
-    $ ln -s ../../rabbitmq-lvc-plugin ./
+Binary builds of this plugin from
+the [Community Plugins page](http://www.rabbitmq.com/community-plugins.html).
 
-and finally, run the server:
-    $ cd ..
-    $ make run
+See [Plugin Installation](http://www.rabbitmq.com/installing-plugins.html) for details
+about how to install plugins that do not ship with RabbitMQ.
 
-In the startup banner you should see a line something like
+## Building from Source
 
-    starting rabbit_exchange_type_lvc                 ...done
+You can build and install it like any other plugin (see
+[the plugin development guide](http://www.rabbitmq.com/plugin-development.html)).
+
+## Usage
 
 To use the LVC exchange, with e.g., py-amqp:
 
@@ -53,11 +49,12 @@ To use the LVC exchange, with e.g., py-amqp:
     ch.queue_bind("q", "lvc", "rabbit")
     print ch.basic_get("q").body
 
-# Limitations
+## Limitations
 
-## "Recent value cache"
+### "Recent value cache"
 
-AMQP is inherently racey.  It is quite possible to see different
+Message publishing in AMQP 0-9-1 is asynchronous by design and thus introduces natural race conditions
+when there's more than one publisher.  It is quite possible to see different
 last-values but the same subsequent message stream, from different
 clients.
 
@@ -72,7 +69,7 @@ the last value.  For this reason, I'm thinking of tagging the last
 value messages so that clients can fast-forward to it, or ignore it,
 if necessary.
 
-## Values v. deltas
+### Values v. deltas
 
 One question that springs to mind when considering last value caches
 is "what if I'm sending deltas rather than the whole value?".  Thre
@@ -81,7 +78,7 @@ using two exchanges and posting full values to the LVC (from the
 originating process -- presumably you'd be using deltas to save on
 downstream bandwidth).
 
-## Direct exchanges only
+### Direct exchanges only
 
 The semantics of another kind of value-caching exchange (other than
 fanout) aren't obvious.  To choose one option though, say a

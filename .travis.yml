@@ -1,0 +1,67 @@
+# vim:sw=2:et:
+
+sudo: false
+language: erlang
+notifications:
+  email:
+    recipients:
+      - alerts@rabbitmq.com
+    on_success: never
+    on_failure: always
+addons:
+  apt:
+    sources:
+      - sourceline: deb https://packages.erlang-solutions.com/ubuntu trusty contrib
+        key_url: https://packages.erlang-solutions.com/ubuntu/erlang_solutions.asc
+    packages:
+      - awscli
+      # Use Elixir from Erlang Solutions. The provided Elixir is
+      # installed with kiex but is old. We also can't use kiex to
+      # install a newer one because of GitHub API rate limiting.
+      - elixir=1.6.0-1
+cache:
+  apt: true
+env:
+  global:
+    - secure: AUfaCfOtzqGY1Mra4Rdh+TTvtnjnC+5EiaSTsuUXUGDt4VOTV9jVvz9iiQVw/HOBeEPesja7ac7AaQ6CrRu2xzgelrclY7i5AYK9n3Kom9gEiOO/pSSkZB7zadn6ZdALxCbx5ZU4+6I2bvIHn8WpWalX/Vsg861q/j16+2+bU4I=
+    - secure: h8YVIZxUGfMxEtY1zwRe/2gePqHGH6MAbVfEphu0bOyjPOi9wQ5S+M/Kq3HW591giKK6muqkXRvU9bYA2eXDQE50wXkHS7QUyyz4QCuyhj5OadFi1kY5ZtEAxZGtnroTCeDI0zzy6xiwUePxbtEdI/8owMVKwLdA+Xizdx7bDFU=
+
+otp_release:
+  - "19.3"
+  - "20.3"
+
+before_script:
+  # The checkout made by Travis is a "detached HEAD" and branches
+  # information is missing. Our Erlang.mk's git_rmq fetch method relies
+  # on it, so we need to restore it.
+  #
+  # We simply fetch master and, if it exists, v3.8.x branches. A branch
+  # is created, pointing to the detached HEAD.
+  - |
+    git checkout -B "${TRAVIS_TAG:-${TRAVIS_BRANCH}}"
+    git remote add upstream https://github.com/$TRAVIS_REPO_SLUG.git
+    git fetch upstream v3.8.x:v3.8.x || :
+    git fetch upstream master:master || :
+  # Make sure we use Elixir from Erlang Solutions and not kiex.
+  - |
+    echo YES | kiex implode
+    elixir --version
+    elixir --version | grep -q 'Elixir 1.6.0'
+
+script:
+  - make xref
+  - make tests
+
+after_failure:
+  - |
+    cd "$TRAVIS_BUILD_DIR"
+    if test -d logs && test "$AWS_ACCESS_KEY_ID" && test "$AWS_SECRET_ACCESS_KEY"; then
+      archive_name="$(basename "$TRAVIS_REPO_SLUG")-$TRAVIS_JOB_NUMBER"
+
+      tar -c --transform "s/^logs/${archive_name}/" -f - logs | \
+        xz > "${archive_name}.tar.xz"
+
+      aws s3 cp "${archive_name}.tar.xz" s3://server-release-pipeline/travis-ci-logs/ \
+        --region eu-west-1 \
+        --acl public-read
+    fi

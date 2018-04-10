@@ -5,22 +5,23 @@
 -behaviour(rabbit_exchange_type).
 
 -export([description/0, serialise_events/0, route/2]).
--export([validate/1, create/2, recover/2, delete/3,
+-export([validate/1, validate_binding/2,
+         create/2, recover/2, delete/3, policy_changed/2,
          add_binding/3, remove_bindings/3, assert_args_equivalence/2]).
+-export([info/1, info/2]).
 
--include_lib("rabbit_common/include/rabbit_exchange_type_spec.hrl").
+info(_X) -> [].
+info(_X, _) -> [].
 
 description() ->
-    [{name, <<"lvc">>},
+    [{name, <<"x-lvc">>},
      {description, <<"Last-value cache exchange.">>}].
 
 serialise_events() -> false.
 
 route(Exchange = #exchange{name = Name},
-      Delivery = #delivery{message = #basic_message{
-                             routing_keys = RKs,
-                             content = Content
-                            }}) ->
+      Delivery = #delivery{message = Msg}) ->
+    #basic_message{routing_keys = RKs} = Msg,
     Keys = case RKs of
                CC when is_list(CC) -> CC;
                To                 -> [To]
@@ -30,13 +31,14 @@ route(Exchange = #exchange{name = Name},
               [mnesia:write(?LVC_TABLE,
                             #cached{key = #cachekey{exchange=Name,
                                                     routing_key=K},
-                                    content = Content},
+                                    content = Msg},
                             write) ||
                   K <- Keys]
       end),
     rabbit_exchange_type_direct:route(Exchange, Delivery).
 
 validate(_X) -> ok.
+validate_binding(_X, _B) -> ok.
 create(_Tx, _X) -> ok.
 recover(_X, _Bs) -> ok.
 
@@ -51,29 +53,49 @@ delete(transaction, #exchange{ name = Name }, _Bs) ->
 delete(_Tx, _X, _Bs) ->
 	ok.
 
+policy_changed(_X1, _X2) -> ok.
+
 add_binding(none, #exchange{ name = XName },
-            #binding{ key = RoutingKey,
-                      destination = QueueName }) ->
-    case rabbit_amqqueue:lookup(QueueName) of
+                  #binding{ key = RoutingKey,
+                            destination = DestinationName }) ->
+    case rabbit_amqqueue:lookup(DestinationName) of
         {error, not_found} ->
-            rabbit_misc:protocol_error(
-              internal_error,
-              "could not find queue '~s'",
-              [QueueName]);
-        {ok, #amqqueue{ pid = Q }} ->
+
+            case rabbit_exchange:lookup(DestinationName) of
+              {error, not_fount} ->
+                rabbit_misc:protocol_error(
+                  internal_error,
+                  "could not find destination '~s'",
+                  [DestinationName]);
+
+              {ok, E = #exchange{}} ->
+
+                case mnesia:dirty_read(
+                       ?LVC_TABLE,
+                       #cachekey{ exchange=XName,
+                                  routing_key=RoutingKey }) of
+                    [] ->
+                        ok;
+                    [#cached{content = Msg}] ->
+                        Delivery = rabbit_basic:delivery(
+                          false, false, Msg, undefined),
+                        Qs = rabbit_amqqueue:lookup(
+                          rabbit_exchange:route(E, Delivery)),
+                        rabbit_amqqueue:deliver(Qs, Delivery)
+                end
+            end;
+
+
+        {ok, Q = #amqqueue{}} ->
             case mnesia:dirty_read(
                    ?LVC_TABLE,
                    #cachekey{ exchange=XName,
                              routing_key=RoutingKey }) of
                 [] ->
                     ok;
-                [#cached{content = Content}] ->
-                    {Props, Payload} =
-                        rabbit_basic:from_content(Content),
-                    Msg = rabbit_basic:message(
-                            XName, RoutingKey, Props, Payload),
+                [#cached{content = Msg}] ->
                     rabbit_amqqueue:deliver(
-                      Q, rabbit_basic:delivery(false, false, Msg, undefined))
+                      [Q], rabbit_basic:delivery(false, false, Msg, undefined))
             end
     end,
     ok;
