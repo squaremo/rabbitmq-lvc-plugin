@@ -62,7 +62,7 @@ add_binding(none, #exchange{ name = XName },
         {error, not_found} ->
 
             case rabbit_exchange:lookup(DestinationName) of
-              {error, not_fount} ->
+              {error, not_found} ->
                 rabbit_misc:protocol_error(
                   internal_error,
                   "could not find destination '~s'",
