@@ -1,5 +1,6 @@
 -module(rabbit_exchange_type_lvc).
 -include_lib("rabbit_common/include/rabbit.hrl").
+-include_lib("rabbit/include/amqqueue.hrl").
 -include("rabbit_lvc_plugin.hrl").
 
 -behaviour(rabbit_exchange_type).
@@ -86,7 +87,7 @@ add_binding(none, #exchange{ name = XName },
             end;
 
 
-        {ok, Q = #amqqueue{}} ->
+        {ok, Q} when ?is_amqqueue(Q) ->
             case mnesia:dirty_read(
                    ?LVC_TABLE,
                    #cachekey{ exchange=XName,
