@@ -21,7 +21,7 @@ env:
     - secure: h8YVIZxUGfMxEtY1zwRe/2gePqHGH6MAbVfEphu0bOyjPOi9wQ5S+M/Kq3HW591giKK6muqkXRvU9bYA2eXDQE50wXkHS7QUyyz4QCuyhj5OadFi1kY5ZtEAxZGtnroTCeDI0zzy6xiwUePxbtEdI/8owMVKwLdA+Xizdx7bDFU=
 
 otp_release:
-  - "21.2"
+  - "21.3"
 
 before_script:
   - elixir --version
