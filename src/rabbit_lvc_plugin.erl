@@ -18,8 +18,8 @@ setup_schema() ->
     mnesia:create_table(?LVC_TABLE,
                         [{attributes, record_info(fields, cached)},
                          {record_name, cached},
-                         {type, set}]),
-    mnesia:add_table_copy(?LVC_TABLE, node(), ram_copies),
+                         {type, set},
+                         {disc_copies, [node()]}]),
     mnesia:wait_for_tables([?LVC_TABLE], 30000),
     ok.
 
