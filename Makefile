@@ -2,7 +2,7 @@ PROJECT = rabbitmq_lvc_exchange
 PROJECT_DESCRIPTION = RabbitMQ Last Value Cache exchange
 
 define PROJECT_APP_EXTRA_KEYS
-	{broker_version_requirements, []}
+	{broker_version_requirements, ["3.7.0", "3.8.0"]}
 endef
 
 DEPS = rabbit_common rabbit
