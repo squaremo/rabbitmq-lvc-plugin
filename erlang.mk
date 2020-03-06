@@ -17,7 +17,7 @@
 ERLANG_MK_FILENAME := $(realpath $(lastword $(MAKEFILE_LIST)))
 export ERLANG_MK_FILENAME
 
-ERLANG_MK_VERSION = 2.0.0-pre.2-495-g8217957
+ERLANG_MK_VERSION = 2019.07.01-18-g7edc30a
 ERLANG_MK_WITHOUT = 
 
 # Make 3.81 and 3.82 are deprecated.
@@ -66,7 +66,7 @@ export ERLANG_MK_TMP
 
 # "erl" command.
 
-ERL = erl +A0 -noinput -boot start_clean
+ERL = erl +A1 -noinput -boot no_dot_erlang
 
 # Platform detection.
 
@@ -332,7 +332,7 @@ pkg_active_commit = master
 PACKAGES += actordb_core
 pkg_actordb_core_name = actordb_core
 pkg_actordb_core_description = ActorDB main source
-pkg_actordb_core_homepage = https://www.actordb.com/
+pkg_actordb_core_homepage = http://www.actordb.com/
 pkg_actordb_core_fetch = git
 pkg_actordb_core_repo = https://github.com/biokoda/actordb_core
 pkg_actordb_core_commit = master
@@ -340,7 +340,7 @@ pkg_actordb_core_commit = master
 PACKAGES += actordb_thrift
 pkg_actordb_thrift_name = actordb_thrift
 pkg_actordb_thrift_description = Thrift API for ActorDB
-pkg_actordb_thrift_homepage = https://www.actordb.com/
+pkg_actordb_thrift_homepage = http://www.actordb.com/
 pkg_actordb_thrift_fetch = git
 pkg_actordb_thrift_repo = https://github.com/biokoda/actordb_thrift
 pkg_actordb_thrift_commit = master
@@ -388,7 +388,7 @@ pkg_antidote_commit = master
 PACKAGES += apns
 pkg_apns_name = apns
 pkg_apns_description = Apple Push Notification Server for Erlang
-pkg_apns_homepage = https://inaka.github.com/apns4erl
+pkg_apns_homepage = http://inaka.github.com/apns4erl
 pkg_apns_fetch = git
 pkg_apns_repo = https://github.com/inaka/apns4erl
 pkg_apns_commit = master
@@ -556,7 +556,7 @@ pkg_bson_commit = master
 PACKAGES += bullet
 pkg_bullet_name = bullet
 pkg_bullet_description = Simple, reliable, efficient streaming for Cowboy.
-pkg_bullet_homepage = https://ninenines.eu
+pkg_bullet_homepage = http://ninenines.eu
 pkg_bullet_fetch = git
 pkg_bullet_repo = https://github.com/ninenines/bullet
 pkg_bullet_commit = master
@@ -660,7 +660,7 @@ pkg_clique_commit = develop
 PACKAGES += cloudi_core
 pkg_cloudi_core_name = cloudi_core
 pkg_cloudi_core_description = CloudI internal service runtime
-pkg_cloudi_core_homepage = https://cloudi.org/
+pkg_cloudi_core_homepage = http://cloudi.org/
 pkg_cloudi_core_fetch = git
 pkg_cloudi_core_repo = https://github.com/CloudI/cloudi_core
 pkg_cloudi_core_commit = master
@@ -668,7 +668,7 @@ pkg_cloudi_core_commit = master
 PACKAGES += cloudi_service_api_requests
 pkg_cloudi_service_api_requests_name = cloudi_service_api_requests
 pkg_cloudi_service_api_requests_description = CloudI Service API requests (JSON-RPC/Erlang-term support)
-pkg_cloudi_service_api_requests_homepage = https://cloudi.org/
+pkg_cloudi_service_api_requests_homepage = http://cloudi.org/
 pkg_cloudi_service_api_requests_fetch = git
 pkg_cloudi_service_api_requests_repo = https://github.com/CloudI/cloudi_service_api_requests
 pkg_cloudi_service_api_requests_commit = master
@@ -676,7 +676,7 @@ pkg_cloudi_service_api_requests_commit = master
 PACKAGES += cloudi_service_db
 pkg_cloudi_service_db_name = cloudi_service_db
 pkg_cloudi_service_db_description = CloudI Database (in-memory/testing/generic)
-pkg_cloudi_service_db_homepage = https://cloudi.org/
+pkg_cloudi_service_db_homepage = http://cloudi.org/
 pkg_cloudi_service_db_fetch = git
 pkg_cloudi_service_db_repo = https://github.com/CloudI/cloudi_service_db
 pkg_cloudi_service_db_commit = master
@@ -684,7 +684,7 @@ pkg_cloudi_service_db_commit = master
 PACKAGES += cloudi_service_db_cassandra
 pkg_cloudi_service_db_cassandra_name = cloudi_service_db_cassandra
 pkg_cloudi_service_db_cassandra_description = Cassandra CloudI Service
-pkg_cloudi_service_db_cassandra_homepage = https://cloudi.org/
+pkg_cloudi_service_db_cassandra_homepage = http://cloudi.org/
 pkg_cloudi_service_db_cassandra_fetch = git
 pkg_cloudi_service_db_cassandra_repo = https://github.com/CloudI/cloudi_service_db_cassandra
 pkg_cloudi_service_db_cassandra_commit = master
@@ -692,7 +692,7 @@ pkg_cloudi_service_db_cassandra_commit = master
 PACKAGES += cloudi_service_db_cassandra_cql
 pkg_cloudi_service_db_cassandra_cql_name = cloudi_service_db_cassandra_cql
 pkg_cloudi_service_db_cassandra_cql_description = Cassandra CQL CloudI Service
-pkg_cloudi_service_db_cassandra_cql_homepage = https://cloudi.org/
+pkg_cloudi_service_db_cassandra_cql_homepage = http://cloudi.org/
 pkg_cloudi_service_db_cassandra_cql_fetch = git
 pkg_cloudi_service_db_cassandra_cql_repo = https://github.com/CloudI/cloudi_service_db_cassandra_cql
 pkg_cloudi_service_db_cassandra_cql_commit = master
@@ -700,7 +700,7 @@ pkg_cloudi_service_db_cassandra_cql_commit = master
 PACKAGES += cloudi_service_db_couchdb
 pkg_cloudi_service_db_couchdb_name = cloudi_service_db_couchdb
 pkg_cloudi_service_db_couchdb_description = CouchDB CloudI Service
-pkg_cloudi_service_db_couchdb_homepage = https://cloudi.org/
+pkg_cloudi_service_db_couchdb_homepage = http://cloudi.org/
 pkg_cloudi_service_db_couchdb_fetch = git
 pkg_cloudi_service_db_couchdb_repo = https://github.com/CloudI/cloudi_service_db_couchdb
 pkg_cloudi_service_db_couchdb_commit = master
@@ -708,7 +708,7 @@ pkg_cloudi_service_db_couchdb_commit = master
 PACKAGES += cloudi_service_db_elasticsearch
 pkg_cloudi_service_db_elasticsearch_name = cloudi_service_db_elasticsearch
 pkg_cloudi_service_db_elasticsearch_description = elasticsearch CloudI Service
-pkg_cloudi_service_db_elasticsearch_homepage = https://cloudi.org/
+pkg_cloudi_service_db_elasticsearch_homepage = http://cloudi.org/
 pkg_cloudi_service_db_elasticsearch_fetch = git
 pkg_cloudi_service_db_elasticsearch_repo = https://github.com/CloudI/cloudi_service_db_elasticsearch
 pkg_cloudi_service_db_elasticsearch_commit = master
@@ -716,7 +716,7 @@ pkg_cloudi_service_db_elasticsearch_commit = master
 PACKAGES += cloudi_service_db_memcached
 pkg_cloudi_service_db_memcached_name = cloudi_service_db_memcached
 pkg_cloudi_service_db_memcached_description = memcached CloudI Service
-pkg_cloudi_service_db_memcached_homepage = https://cloudi.org/
+pkg_cloudi_service_db_memcached_homepage = http://cloudi.org/
 pkg_cloudi_service_db_memcached_fetch = git
 pkg_cloudi_service_db_memcached_repo = https://github.com/CloudI/cloudi_service_db_memcached
 pkg_cloudi_service_db_memcached_commit = master
@@ -724,7 +724,7 @@ pkg_cloudi_service_db_memcached_commit = master
 PACKAGES += cloudi_service_db_mysql
 pkg_cloudi_service_db_mysql_name = cloudi_service_db_mysql
 pkg_cloudi_service_db_mysql_description = MySQL CloudI Service
-pkg_cloudi_service_db_mysql_homepage = https://cloudi.org/
+pkg_cloudi_service_db_mysql_homepage = http://cloudi.org/
 pkg_cloudi_service_db_mysql_fetch = git
 pkg_cloudi_service_db_mysql_repo = https://github.com/CloudI/cloudi_service_db_mysql
 pkg_cloudi_service_db_mysql_commit = master
@@ -732,7 +732,7 @@ pkg_cloudi_service_db_mysql_commit = master
 PACKAGES += cloudi_service_db_pgsql
 pkg_cloudi_service_db_pgsql_name = cloudi_service_db_pgsql
 pkg_cloudi_service_db_pgsql_description = PostgreSQL CloudI Service
-pkg_cloudi_service_db_pgsql_homepage = https://cloudi.org/
+pkg_cloudi_service_db_pgsql_homepage = http://cloudi.org/
 pkg_cloudi_service_db_pgsql_fetch = git
 pkg_cloudi_service_db_pgsql_repo = https://github.com/CloudI/cloudi_service_db_pgsql
 pkg_cloudi_service_db_pgsql_commit = master
@@ -740,7 +740,7 @@ pkg_cloudi_service_db_pgsql_commit = master
 PACKAGES += cloudi_service_db_riak
 pkg_cloudi_service_db_riak_name = cloudi_service_db_riak
 pkg_cloudi_service_db_riak_description = Riak CloudI Service
-pkg_cloudi_service_db_riak_homepage = https://cloudi.org/
+pkg_cloudi_service_db_riak_homepage = http://cloudi.org/
 pkg_cloudi_service_db_riak_fetch = git
 pkg_cloudi_service_db_riak_repo = https://github.com/CloudI/cloudi_service_db_riak
 pkg_cloudi_service_db_riak_commit = master
@@ -748,7 +748,7 @@ pkg_cloudi_service_db_riak_commit = master
 PACKAGES += cloudi_service_db_tokyotyrant
 pkg_cloudi_service_db_tokyotyrant_name = cloudi_service_db_tokyotyrant
 pkg_cloudi_service_db_tokyotyrant_description = Tokyo Tyrant CloudI Service
-pkg_cloudi_service_db_tokyotyrant_homepage = https://cloudi.org/
+pkg_cloudi_service_db_tokyotyrant_homepage = http://cloudi.org/
 pkg_cloudi_service_db_tokyotyrant_fetch = git
 pkg_cloudi_service_db_tokyotyrant_repo = https://github.com/CloudI/cloudi_service_db_tokyotyrant
 pkg_cloudi_service_db_tokyotyrant_commit = master
@@ -756,7 +756,7 @@ pkg_cloudi_service_db_tokyotyrant_commit = master
 PACKAGES += cloudi_service_filesystem
 pkg_cloudi_service_filesystem_name = cloudi_service_filesystem
 pkg_cloudi_service_filesystem_description = Filesystem CloudI Service
-pkg_cloudi_service_filesystem_homepage = https://cloudi.org/
+pkg_cloudi_service_filesystem_homepage = http://cloudi.org/
 pkg_cloudi_service_filesystem_fetch = git
 pkg_cloudi_service_filesystem_repo = https://github.com/CloudI/cloudi_service_filesystem
 pkg_cloudi_service_filesystem_commit = master
@@ -764,7 +764,7 @@ pkg_cloudi_service_filesystem_commit = master
 PACKAGES += cloudi_service_http_client
 pkg_cloudi_service_http_client_name = cloudi_service_http_client
 pkg_cloudi_service_http_client_description = HTTP client CloudI Service
-pkg_cloudi_service_http_client_homepage = https://cloudi.org/
+pkg_cloudi_service_http_client_homepage = http://cloudi.org/
 pkg_cloudi_service_http_client_fetch = git
 pkg_cloudi_service_http_client_repo = https://github.com/CloudI/cloudi_service_http_client
 pkg_cloudi_service_http_client_commit = master
@@ -772,7 +772,7 @@ pkg_cloudi_service_http_client_commit = master
 PACKAGES += cloudi_service_http_cowboy
 pkg_cloudi_service_http_cowboy_name = cloudi_service_http_cowboy
 pkg_cloudi_service_http_cowboy_description = cowboy HTTP/HTTPS CloudI Service
-pkg_cloudi_service_http_cowboy_homepage = https://cloudi.org/
+pkg_cloudi_service_http_cowboy_homepage = http://cloudi.org/
 pkg_cloudi_service_http_cowboy_fetch = git
 pkg_cloudi_service_http_cowboy_repo = https://github.com/CloudI/cloudi_service_http_cowboy
 pkg_cloudi_service_http_cowboy_commit = master
@@ -780,7 +780,7 @@ pkg_cloudi_service_http_cowboy_commit = master
 PACKAGES += cloudi_service_http_elli
 pkg_cloudi_service_http_elli_name = cloudi_service_http_elli
 pkg_cloudi_service_http_elli_description = elli HTTP CloudI Service
-pkg_cloudi_service_http_elli_homepage = https://cloudi.org/
+pkg_cloudi_service_http_elli_homepage = http://cloudi.org/
 pkg_cloudi_service_http_elli_fetch = git
 pkg_cloudi_service_http_elli_repo = https://github.com/CloudI/cloudi_service_http_elli
 pkg_cloudi_service_http_elli_commit = master
@@ -788,7 +788,7 @@ pkg_cloudi_service_http_elli_commit = master
 PACKAGES += cloudi_service_map_reduce
 pkg_cloudi_service_map_reduce_name = cloudi_service_map_reduce
 pkg_cloudi_service_map_reduce_description = Map/Reduce CloudI Service
-pkg_cloudi_service_map_reduce_homepage = https://cloudi.org/
+pkg_cloudi_service_map_reduce_homepage = http://cloudi.org/
 pkg_cloudi_service_map_reduce_fetch = git
 pkg_cloudi_service_map_reduce_repo = https://github.com/CloudI/cloudi_service_map_reduce
 pkg_cloudi_service_map_reduce_commit = master
@@ -796,7 +796,7 @@ pkg_cloudi_service_map_reduce_commit = master
 PACKAGES += cloudi_service_oauth1
 pkg_cloudi_service_oauth1_name = cloudi_service_oauth1
 pkg_cloudi_service_oauth1_description = OAuth v1.0 CloudI Service
-pkg_cloudi_service_oauth1_homepage = https://cloudi.org/
+pkg_cloudi_service_oauth1_homepage = http://cloudi.org/
 pkg_cloudi_service_oauth1_fetch = git
 pkg_cloudi_service_oauth1_repo = https://github.com/CloudI/cloudi_service_oauth1
 pkg_cloudi_service_oauth1_commit = master
@@ -804,7 +804,7 @@ pkg_cloudi_service_oauth1_commit = master
 PACKAGES += cloudi_service_queue
 pkg_cloudi_service_queue_name = cloudi_service_queue
 pkg_cloudi_service_queue_description = Persistent Queue Service
-pkg_cloudi_service_queue_homepage = https://cloudi.org/
+pkg_cloudi_service_queue_homepage = http://cloudi.org/
 pkg_cloudi_service_queue_fetch = git
 pkg_cloudi_service_queue_repo = https://github.com/CloudI/cloudi_service_queue
 pkg_cloudi_service_queue_commit = master
@@ -812,7 +812,7 @@ pkg_cloudi_service_queue_commit = master
 PACKAGES += cloudi_service_quorum
 pkg_cloudi_service_quorum_name = cloudi_service_quorum
 pkg_cloudi_service_quorum_description = CloudI Quorum Service
-pkg_cloudi_service_quorum_homepage = https://cloudi.org/
+pkg_cloudi_service_quorum_homepage = http://cloudi.org/
 pkg_cloudi_service_quorum_fetch = git
 pkg_cloudi_service_quorum_repo = https://github.com/CloudI/cloudi_service_quorum
 pkg_cloudi_service_quorum_commit = master
@@ -820,7 +820,7 @@ pkg_cloudi_service_quorum_commit = master
 PACKAGES += cloudi_service_router
 pkg_cloudi_service_router_name = cloudi_service_router
 pkg_cloudi_service_router_description = CloudI Router Service
-pkg_cloudi_service_router_homepage = https://cloudi.org/
+pkg_cloudi_service_router_homepage = http://cloudi.org/
 pkg_cloudi_service_router_fetch = git
 pkg_cloudi_service_router_repo = https://github.com/CloudI/cloudi_service_router
 pkg_cloudi_service_router_commit = master
@@ -828,7 +828,7 @@ pkg_cloudi_service_router_commit = master
 PACKAGES += cloudi_service_tcp
 pkg_cloudi_service_tcp_name = cloudi_service_tcp
 pkg_cloudi_service_tcp_description = TCP CloudI Service
-pkg_cloudi_service_tcp_homepage = https://cloudi.org/
+pkg_cloudi_service_tcp_homepage = http://cloudi.org/
 pkg_cloudi_service_tcp_fetch = git
 pkg_cloudi_service_tcp_repo = https://github.com/CloudI/cloudi_service_tcp
 pkg_cloudi_service_tcp_commit = master
@@ -836,7 +836,7 @@ pkg_cloudi_service_tcp_commit = master
 PACKAGES += cloudi_service_timers
 pkg_cloudi_service_timers_name = cloudi_service_timers
 pkg_cloudi_service_timers_description = Timers CloudI Service
-pkg_cloudi_service_timers_homepage = https://cloudi.org/
+pkg_cloudi_service_timers_homepage = http://cloudi.org/
 pkg_cloudi_service_timers_fetch = git
 pkg_cloudi_service_timers_repo = https://github.com/CloudI/cloudi_service_timers
 pkg_cloudi_service_timers_commit = master
@@ -844,7 +844,7 @@ pkg_cloudi_service_timers_commit = master
 PACKAGES += cloudi_service_udp
 pkg_cloudi_service_udp_name = cloudi_service_udp
 pkg_cloudi_service_udp_description = UDP CloudI Service
-pkg_cloudi_service_udp_homepage = https://cloudi.org/
+pkg_cloudi_service_udp_homepage = http://cloudi.org/
 pkg_cloudi_service_udp_fetch = git
 pkg_cloudi_service_udp_repo = https://github.com/CloudI/cloudi_service_udp
 pkg_cloudi_service_udp_commit = master
@@ -852,7 +852,7 @@ pkg_cloudi_service_udp_commit = master
 PACKAGES += cloudi_service_validate
 pkg_cloudi_service_validate_name = cloudi_service_validate
 pkg_cloudi_service_validate_description = CloudI Validate Service
-pkg_cloudi_service_validate_homepage = https://cloudi.org/
+pkg_cloudi_service_validate_homepage = http://cloudi.org/
 pkg_cloudi_service_validate_fetch = git
 pkg_cloudi_service_validate_repo = https://github.com/CloudI/cloudi_service_validate
 pkg_cloudi_service_validate_commit = master
@@ -860,7 +860,7 @@ pkg_cloudi_service_validate_commit = master
 PACKAGES += cloudi_service_zeromq
 pkg_cloudi_service_zeromq_name = cloudi_service_zeromq
 pkg_cloudi_service_zeromq_description = ZeroMQ CloudI Service
-pkg_cloudi_service_zeromq_homepage = https://cloudi.org/
+pkg_cloudi_service_zeromq_homepage = http://cloudi.org/
 pkg_cloudi_service_zeromq_fetch = git
 pkg_cloudi_service_zeromq_repo = https://github.com/CloudI/cloudi_service_zeromq
 pkg_cloudi_service_zeromq_commit = master
@@ -908,7 +908,7 @@ pkg_covertool_commit = master
 PACKAGES += cowboy
 pkg_cowboy_name = cowboy
 pkg_cowboy_description = Small, fast and modular HTTP server.
-pkg_cowboy_homepage = https://ninenines.eu
+pkg_cowboy_homepage = http://ninenines.eu
 pkg_cowboy_fetch = git
 pkg_cowboy_repo = https://github.com/ninenines/cowboy
 pkg_cowboy_commit = 1.0.4
@@ -924,7 +924,7 @@ pkg_cowdb_commit = master
 PACKAGES += cowlib
 pkg_cowlib_name = cowlib
 pkg_cowlib_description = Support library for manipulating Web protocols.
-pkg_cowlib_homepage = https://ninenines.eu
+pkg_cowlib_homepage = http://ninenines.eu
 pkg_cowlib_fetch = git
 pkg_cowlib_repo = https://github.com/ninenines/cowlib
 pkg_cowlib_commit = 1.0.2
@@ -1116,7 +1116,7 @@ pkg_edgar_commit = master
 PACKAGES += edis
 pkg_edis_name = edis
 pkg_edis_description = An Erlang implementation of Redis KV Store
-pkg_edis_homepage = https://inaka.github.com/edis/
+pkg_edis_homepage = http://inaka.github.com/edis/
 pkg_edis_fetch = git
 pkg_edis_repo = https://github.com/inaka/edis
 pkg_edis_commit = master
@@ -1236,9 +1236,9 @@ pkg_elixir_commit = master
 PACKAGES += elli
 pkg_elli_name = elli
 pkg_elli_description = Simple, robust and performant Erlang web server
-pkg_elli_homepage = https://github.com/knutin/elli
+pkg_elli_homepage = https://github.com/elli-lib/elli
 pkg_elli_fetch = git
-pkg_elli_repo = https://github.com/knutin/elli
+pkg_elli_repo = https://github.com/elli-lib/elli
 pkg_elli_commit = master
 
 PACKAGES += elvis
@@ -1452,7 +1452,7 @@ pkg_erlcron_commit = master
 PACKAGES += erldb
 pkg_erldb_name = erldb
 pkg_erldb_description = ORM (Object-relational mapping) application implemented in Erlang
-pkg_erldb_homepage = https://erldb.org
+pkg_erldb_homepage = http://erldb.org
 pkg_erldb_fetch = git
 pkg_erldb_repo = https://github.com/erldb/erldb
 pkg_erldb_commit = master
@@ -1716,7 +1716,7 @@ pkg_evum_commit = master
 PACKAGES += exec
 pkg_exec_name = erlexec
 pkg_exec_description = Execute and control OS processes from Erlang/OTP.
-pkg_exec_homepage = https://saleyn.github.com/erlexec
+pkg_exec_homepage = http://saleyn.github.com/erlexec
 pkg_exec_fetch = git
 pkg_exec_repo = https://github.com/saleyn/erlexec
 pkg_exec_commit = master
@@ -1811,7 +1811,7 @@ pkg_find_crate_commit = master
 
 PACKAGES += fix
 pkg_fix_name = fix
-pkg_fix_description = https://fixtrading.org implementation.
+pkg_fix_description = http://fixprotocol.org/ implementation.
 pkg_fix_homepage = https://github.com/maxlapshin/fix
 pkg_fix_fetch = git
 pkg_fix_repo = https://github.com/maxlapshin/fix
@@ -2476,7 +2476,7 @@ pkg_lambdapad_commit = master
 PACKAGES += lasp
 pkg_lasp_name = lasp
 pkg_lasp_description = A Language for Distributed, Eventually Consistent Computations
-pkg_lasp_homepage = https://lasp-lang.org/
+pkg_lasp_homepage = http://lasp-lang.org/
 pkg_lasp_fetch = git
 pkg_lasp_repo = https://github.com/lasp-lang/lasp
 pkg_lasp_commit = master
@@ -2524,7 +2524,7 @@ pkg_ling_commit = master
 PACKAGES += live
 pkg_live_name = live
 pkg_live_description = Automated module and configuration reloader.
-pkg_live_homepage = https://ninenines.eu
+pkg_live_homepage = http://ninenines.eu
 pkg_live_fetch = git
 pkg_live_repo = https://github.com/ninenines/live
 pkg_live_commit = master
@@ -2811,11 +2811,11 @@ pkg_myproto_commit = master
 
 PACKAGES += mysql
 pkg_mysql_name = mysql
-pkg_mysql_description = Erlang MySQL Driver (from code.google.com)
-pkg_mysql_homepage = https://github.com/dizzyd/erlang-mysql-driver
+pkg_mysql_description = MySQL client library for Erlang/OTP
+pkg_mysql_homepage = https://github.com/mysql-otp/mysql-otp
 pkg_mysql_fetch = git
-pkg_mysql_repo = https://github.com/dizzyd/erlang-mysql-driver
-pkg_mysql_commit = master
+pkg_mysql_repo = https://github.com/mysql-otp/mysql-otp
+pkg_mysql_commit = 1.5.1
 
 PACKAGES += n2o
 pkg_n2o_name = n2o
@@ -2940,7 +2940,7 @@ pkg_oauth2_commit = master
 PACKAGES += observer_cli
 pkg_observer_cli_name = observer_cli
 pkg_observer_cli_description = Visualize Erlang/Elixir Nodes On The Command Line
-pkg_observer_cli_homepage = https://zhongwencool.github.io/observer_cli
+pkg_observer_cli_homepage = http://zhongwencool.github.io/observer_cli
 pkg_observer_cli_fetch = git
 pkg_observer_cli_repo = https://github.com/zhongwencool/observer_cli
 pkg_observer_cli_commit = master
@@ -3024,6 +3024,14 @@ pkg_parsexml_homepage = https://github.com/maxlapshin/parsexml
 pkg_parsexml_fetch = git
 pkg_parsexml_repo = https://github.com/maxlapshin/parsexml
 pkg_parsexml_commit = master
+
+PACKAGES += partisan
+pkg_partisan_name = partisan
+pkg_partisan_description = High-performance, high-scalability distributed computing with Erlang and Elixir.
+pkg_partisan_homepage = http://partisan.cloud
+pkg_partisan_fetch = git
+pkg_partisan_repo = https://github.com/lasp-lang/partisan
+pkg_partisan_commit = master
 
 PACKAGES += pegjs
 pkg_pegjs_name = pegjs
@@ -3144,6 +3152,14 @@ pkg_procket_homepage = http://blog.listincomprehension.com/search/label/procket
 pkg_procket_fetch = git
 pkg_procket_repo = https://github.com/msantos/procket
 pkg_procket_commit = master
+
+PACKAGES += prometheus
+pkg_prometheus_name = prometheus
+pkg_prometheus_description = Prometheus.io client in Erlang
+pkg_prometheus_homepage = https://github.com/deadtrickster/prometheus.erl
+pkg_prometheus_fetch = git
+pkg_prometheus_repo = https://github.com/deadtrickster/prometheus.erl
+pkg_prometheus_commit = master
 
 PACKAGES += prop
 pkg_prop_name = prop
@@ -3276,7 +3292,7 @@ pkg_rafter_commit = master
 PACKAGES += ranch
 pkg_ranch_name = ranch
 pkg_ranch_description = Socket acceptor pool for TCP protocols.
-pkg_ranch_homepage = https://ninenines.eu
+pkg_ranch_homepage = http://ninenines.eu
 pkg_ranch_fetch = git
 pkg_ranch_repo = https://github.com/ninenines/ranch
 pkg_ranch_commit = 1.2.1
@@ -3292,7 +3308,7 @@ pkg_rbeacon_commit = master
 PACKAGES += rebar
 pkg_rebar_name = rebar
 pkg_rebar_description = Erlang build tool that makes it easy to compile and test Erlang applications, port drivers and releases.
-pkg_rebar_homepage = https://www.rebar3.org
+pkg_rebar_homepage = http://www.rebar3.org
 pkg_rebar_fetch = git
 pkg_rebar_repo = https://github.com/rebar/rebar3
 pkg_rebar_commit = master
@@ -3372,7 +3388,7 @@ pkg_relx_commit = master
 PACKAGES += resource_discovery
 pkg_resource_discovery_name = resource_discovery
 pkg_resource_discovery_description = An application used to dynamically discover resources present in an Erlang node cluster.
-pkg_resource_discovery_homepage = https://erlware.org/
+pkg_resource_discovery_homepage = http://erlware.org/
 pkg_resource_discovery_fetch = git
 pkg_resource_discovery_repo = https://github.com/erlware/resource_discovery
 pkg_resource_discovery_commit = master
@@ -3540,7 +3556,7 @@ pkg_seestar_commit = master
 PACKAGES += service
 pkg_service_name = service
 pkg_service_description = A minimal Erlang behavior for creating CloudI internal services
-pkg_service_homepage = https://cloudi.org/
+pkg_service_homepage = http://cloudi.org/
 pkg_service_fetch = git
 pkg_service_repo = https://github.com/CloudI/service
 pkg_service_commit = master
@@ -3580,7 +3596,7 @@ pkg_sgte_commit = master
 PACKAGES += sheriff
 pkg_sheriff_name = sheriff
 pkg_sheriff_description = Parse transform for type based validation.
-pkg_sheriff_homepage = https://ninenines.eu
+pkg_sheriff_homepage = http://ninenines.eu
 pkg_sheriff_fetch = git
 pkg_sheriff_repo = https://github.com/extend/sheriff
 pkg_sheriff_commit = master
@@ -3932,7 +3948,7 @@ pkg_traffic_tools_commit = master
 PACKAGES += trails
 pkg_trails_name = trails
 pkg_trails_description = A couple of improvements over Cowboy Routes
-pkg_trails_homepage = https://inaka.github.io/cowboy-trails/
+pkg_trails_homepage = http://inaka.github.io/cowboy-trails/
 pkg_trails_fetch = git
 pkg_trails_repo = https://github.com/inaka/cowboy-trails
 pkg_trails_commit = master
@@ -4148,7 +4164,7 @@ pkg_worker_pool_commit = master
 PACKAGES += wrangler
 pkg_wrangler_name = wrangler
 pkg_wrangler_description = Import of the Wrangler svn repository.
-pkg_wrangler_homepage = https://www.cs.kent.ac.uk/projects/wrangler/Home.html
+pkg_wrangler_homepage = http://www.cs.kent.ac.uk/projects/wrangler/Home.html
 pkg_wrangler_fetch = git
 pkg_wrangler_repo = https://github.com/RefactoringTools/wrangler
 pkg_wrangler_commit = master
@@ -4330,9 +4346,64 @@ $(foreach p,$(DEP_EARLY_PLUGINS),\
 		$(call core_dep_plugin,$p,$(firstword $(subst /, ,$p))),\
 		$(call core_dep_plugin,$p/early-plugins.mk,$p))))
 
-dep_name = $(if $(dep_$(1)),$(1),$(if $(pkg_$(1)_name),$(pkg_$(1)_name),$(1)))
-dep_repo = $(patsubst git://github.com/%,https://github.com/%, \
-	$(if $(dep_$(1)),$(word 2,$(dep_$(1))),$(pkg_$(1)_repo)))
+# Query functions.
+
+query_fetch_method = $(if $(dep_$(1)),$(call _qfm_dep,$(word 1,$(dep_$(1)))),$(call _qfm_pkg,$(1)))
+_qfm_dep = $(if $(dep_fetch_$(1)),$(1),$(if $(IS_DEP),legacy,fail))
+_qfm_pkg = $(if $(pkg_$(1)_fetch),$(pkg_$(1)_fetch),fail)
+
+query_name = $(if $(dep_$(1)),$(1),$(if $(pkg_$(1)_name),$(pkg_$(1)_name),$(1)))
+
+query_repo = $(call _qr,$(1),$(call query_fetch_method,$(1)))
+_qr = $(if $(query_repo_$(2)),$(call query_repo_$(2),$(1)),$(call dep_repo,$(1)))
+
+query_repo_default = $(if $(dep_$(1)),$(word 2,$(dep_$(1))),$(pkg_$(1)_repo))
+query_repo_git = $(patsubst git://github.com/%,https://github.com/%,$(call query_repo_default,$(1)))
+query_repo_git-subfolder = $(call query_repo_git,$(1))
+query_repo_git-submodule = -
+query_repo_hg = $(call query_repo_default,$(1))
+query_repo_svn = $(call query_repo_default,$(1))
+query_repo_cp = $(call query_repo_default,$(1))
+query_repo_ln = $(call query_repo_default,$(1))
+query_repo_hex = https://hex.pm/packages/$(if $(word 3,$(dep_$(1))),$(word 3,$(dep_$(1))),$(1))
+query_repo_fail = -
+query_repo_legacy = -
+
+query_version = $(call _qv,$(1),$(call query_fetch_method,$(1)))
+_qv = $(if $(query_version_$(2)),$(call query_version_$(2),$(1)),$(call dep_commit,$(1)))
+
+query_version_default = $(if $(dep_$(1)_commit),$(dep_$(1)_commit),$(if $(dep_$(1)),$(word 3,$(dep_$(1))),$(pkg_$(1)_commit)))
+query_version_git = $(call query_version_default,$(1))
+query_version_git-subfolder = $(call query_version_git,$(1))
+query_version_git-submodule = -
+query_version_hg = $(call query_version_default,$(1))
+query_version_svn = -
+query_version_cp = -
+query_version_ln = -
+query_version_hex = $(if $(dep_$(1)_commit),$(dep_$(1)_commit),$(if $(dep_$(1)),$(word 2,$(dep_$(1))),$(pkg_$(1)_commit)))
+query_version_fail = -
+query_version_legacy = -
+
+query_extra = $(call _qe,$(1),$(call query_fetch_method,$(1)))
+_qe = $(if $(query_extra_$(2)),$(call query_extra_$(2),$(1)),-)
+
+query_extra_git = -
+query_extra_git-subfolder = $(if $(dep_$(1)),subfolder=$(word 4,$(dep_$(1))),-)
+query_extra_git-submodule = -
+query_extra_hg = -
+query_extra_svn = -
+query_extra_cp = -
+query_extra_ln = -
+query_extra_hex = $(if $(dep_$(1)),package-name=$(word 3,$(dep_$(1))),-)
+query_extra_fail = -
+query_extra_legacy = -
+
+query_absolute_path = $(addprefix $(DEPS_DIR)/,$(call query_name,$(1)))
+
+# Deprecated legacy query functions.
+dep_fetch = $(call query_fetch_method,$(1))
+dep_name = $(call query_name,$(1))
+dep_repo = $(call query_repo_git,$(1))
 dep_commit = $(if $(dep_$(1)_commit),$(dep_$(1)_commit),$(if $(dep_$(1)),$(if $(filter hex,$(word 1,$(dep_$(1)))),$(word 2,$(dep_$(1))),$(word 3,$(dep_$(1)))),$(pkg_$(1)_commit)))
 
 LOCAL_DEPS_DIRS = $(foreach a,$(LOCAL_DEPS),$(if $(wildcard $(APPS_DIR)/$(a)),$(APPS_DIR)/$(a)))
@@ -4609,7 +4680,7 @@ define dep_autopatch_rebar.erl
 		end,
 		Write("\n")
 	end(),
-	GetHexVsn = fun(N) ->
+	GetHexVsn = fun(N, NP) ->
 		case file:consult("$(call core_native_path,$(DEPS_DIR)/$1/rebar.lock)") of
 			{ok, Lock} ->
 				io:format("~p~n", [Lock]),
@@ -4619,7 +4690,7 @@ define dep_autopatch_rebar.erl
 						case lists:keyfind(atom_to_binary(N, latin1), 1, LockPkgs) of
 							{_, {pkg, _, Vsn}, _} ->
 								io:format("~p~n", [Vsn]),
-								{N, {hex, binary_to_list(Vsn)}};
+								{N, {hex, NP, binary_to_list(Vsn)}};
 							_ ->
 								false
 						end;
@@ -4648,9 +4719,10 @@ define dep_autopatch_rebar.erl
 			false -> [];
 			{_, Deps} ->
 				[begin case case Dep of
-							N when is_atom(N) -> GetHexVsn(N);
-							{N, S} when is_atom(N), is_list(S) -> {N, {hex, SemVsn(S)}};
-							{_, S, {pkg, N}} -> {N, {hex, S}};
+							N when is_atom(N) -> GetHexVsn(N, N);
+							{N, S} when is_atom(N), is_list(S) -> {N, {hex, N, SemVsn(S)}};
+							{N, {pkg, NP}} when is_atom(N) -> GetHexVsn(N, NP);
+							{N, S, {pkg, NP}} -> {N, {hex, NP, S}};
 							{N, S} when is_tuple(S) -> {N, S};
 							{N, _, S} -> {N, S};
 							{N, _, S, _} -> {N, S};
@@ -4659,7 +4731,7 @@ define dep_autopatch_rebar.erl
 					false -> ok;
 					{Name, Source} ->
 						{Method, Repo, Commit} = case Source of
-							{hex, V} -> {hex, V, undefined};
+							{hex, NPV, V} -> {hex, V, NPV};
 							{git, R} -> {git, R, master};
 							{M, R, {branch, C}} -> {M, R, C};
 							{M, R, {ref, C}} -> {M, R, C};
@@ -4940,7 +5012,7 @@ endef
 define dep_fetch_hex
 	mkdir -p $(ERLANG_MK_TMP)/hex $(DEPS_DIR)/$1; \
 	$(call core_http_get,$(ERLANG_MK_TMP)/hex/$1.tar,\
-		https://repo.hex.pm/tarballs/$1-$(strip $(word 2,$(dep_$1))).tar); \
+		https://repo.hex.pm/tarballs/$(if $(word 3,$(dep_$1)),$(word 3,$(dep_$1)),$1)-$(strip $(word 2,$(dep_$1))).tar); \
 	tar -xOf $(ERLANG_MK_TMP)/hex/$1.tar contents.tar.gz | tar -C $(DEPS_DIR)/$1 -xzf -;
 endef
 
@@ -4954,16 +5026,6 @@ define dep_fetch_legacy
 	$(warning WARNING: '$(1)' dependency configuration uses deprecated format.) \
 	git clone -q -n -- $(word 1,$(dep_$(1))) $(DEPS_DIR)/$(1); \
 	cd $(DEPS_DIR)/$(1) && git checkout -q $(if $(word 2,$(dep_$(1))),$(word 2,$(dep_$(1))),master);
-endef
-
-define dep_fetch
-	$(if $(dep_$(1)), \
-		$(if $(dep_fetch_$(word 1,$(dep_$(1)))), \
-			$(word 1,$(dep_$(1))), \
-			$(if $(IS_DEP),legacy,fail)), \
-		$(if $(filter $(1),$(PACKAGES)), \
-			$(pkg_$(1)_fetch), \
-			fail))
 endef
 
 define dep_target
@@ -5047,6 +5109,12 @@ ERLANG_MK_RECURSIVE_DOC_DEPS_LIST = $(ERLANG_MK_TMP)/recursive-doc-deps-list.log
 ERLANG_MK_RECURSIVE_REL_DEPS_LIST = $(ERLANG_MK_TMP)/recursive-rel-deps-list.log
 ERLANG_MK_RECURSIVE_TEST_DEPS_LIST = $(ERLANG_MK_TMP)/recursive-test-deps-list.log
 ERLANG_MK_RECURSIVE_SHELL_DEPS_LIST = $(ERLANG_MK_TMP)/recursive-shell-deps-list.log
+
+ERLANG_MK_QUERY_DEPS_FILE = $(ERLANG_MK_TMP)/query-deps.log
+ERLANG_MK_QUERY_DOC_DEPS_FILE = $(ERLANG_MK_TMP)/query-doc-deps.log
+ERLANG_MK_QUERY_REL_DEPS_FILE = $(ERLANG_MK_TMP)/query-rel-deps.log
+ERLANG_MK_QUERY_TEST_DEPS_FILE = $(ERLANG_MK_TMP)/query-test-deps.log
+ERLANG_MK_QUERY_SHELL_DEPS_FILE = $(ERLANG_MK_TMP)/query-shell-deps.log
 
 # Copyright (c) 2013-2016, Loïc Hoguin <essen@ninenines.eu>
 # This file is part of erlang.mk and subject to the terms of the ISC License.
@@ -5380,6 +5448,9 @@ else
 		| sed "s/{[[:space:]]*modules[[:space:]]*,[[:space:]]*\[\]}/{modules, \[$(call comma_list,$(MODULES))\]}/" \
 		| sed "s/{id,[[:space:]]*\"git\"}/{id, \"$(subst /,\/,$(GITDESCRIBE))\"}/" \
 		> ebin/$(PROJECT).app
+endif
+ifneq ($(wildcard src/$(PROJECT).appup),)
+	$(verbose) cp src/$(PROJECT).appup ebin/
 endif
 
 clean:: clean-app
@@ -6232,7 +6303,7 @@ app:: $(C_SRC_ENV) $(C_SRC_OUTPUT_FILE)
 test-build:: $(C_SRC_ENV) $(C_SRC_OUTPUT_FILE)
 
 $(C_SRC_OUTPUT_FILE): $(OBJECTS)
-	$(verbose) mkdir -p priv/
+	$(verbose) mkdir -p $(dir $@)
 	$(link_verbose) $(CC) $(OBJECTS) \
 		$(LDFLAGS) $(if $(filter $(C_SRC_TYPE),shared),-shared) $(LDLIBS) \
 		-o $(C_SRC_OUTPUT_FILE)
@@ -6894,6 +6965,7 @@ proto_verbose = $(proto_verbose_$(V))
 # Core targets.
 
 ifneq ($(wildcard src/),)
+ifneq ($(filter gpb protobuffs,$(BUILD_DEPS) $(DEPS)),)
 PROTO_FILES := $(filter %.proto,$(ALL_SRC_FILES))
 ERL_FILES += $(addprefix src/,$(patsubst %.proto,%_pb.erl,$(notdir $(PROTO_FILES))))
 
@@ -6938,6 +7010,7 @@ ifneq ($(PROTO_FILES),)
 $(PROJECT).d:: $(PROTO_FILES)
 	$(verbose) mkdir -p ebin/ include/
 	$(if $(strip $?),$(proto_verbose) $(call erlang,$(call compile_proto.erl,$?)))
+endif
 endif
 endif
 
@@ -7597,3 +7670,43 @@ list-shell-deps: $(ERLANG_MK_RECURSIVE_SHELL_DEPS_LIST)
 
 list-deps list-doc-deps list-rel-deps list-test-deps list-shell-deps:
 	$(verbose) cat $^
+
+# Query dependencies recursively.
+
+.PHONY: query-deps query-doc-deps query-rel-deps query-test-deps \
+	query-shell-deps
+
+QUERY ?= name fetch_method repo version
+
+define query_target
+$(1): $(2) clean-tmp-query.log
+ifeq ($(IS_APP)$(IS_DEP),)
+	$(verbose) rm -f $(4)
+endif
+	$(verbose) $(foreach dep,$(3),\
+		echo $(PROJECT): $(foreach q,$(QUERY),$(call query_$(q),$(dep))) >> $(4) ;)
+	$(if $(filter-out query-deps,$(1)),,\
+		$(verbose) set -e; for dep in $(3) ; do \
+			if grep -qs ^$$$$dep$$$$ $(ERLANG_MK_TMP)/query.log; then \
+				:; \
+			else \
+				echo $$$$dep >> $(ERLANG_MK_TMP)/query.log; \
+				$(MAKE) -C $(DEPS_DIR)/$$$$dep $$@ QUERY="$(QUERY)" IS_DEP=1 || true; \
+			fi \
+		done)
+ifeq ($(IS_APP)$(IS_DEP),)
+	$(verbose) touch $(4)
+	$(verbose) cat $(4)
+endif
+endef
+
+clean-tmp-query.log:
+ifeq ($(IS_DEP),)
+	$(verbose) rm -f $(ERLANG_MK_TMP)/query.log
+endif
+
+$(eval $(call query_target,query-deps,$(ERLANG_MK_RECURSIVE_DEPS_LIST),$(BUILD_DEPS) $(DEPS),$(ERLANG_MK_QUERY_DEPS_FILE)))
+$(eval $(call query_target,query-doc-deps,$(ERLANG_MK_RECURSIVE_DOC_DEPS_LIST),$(DOC_DEPS),$(ERLANG_MK_QUERY_DOC_DEPS_FILE)))
+$(eval $(call query_target,query-rel-deps,$(ERLANG_MK_RECURSIVE_REL_DEPS_LIST),$(REL_DEPS),$(ERLANG_MK_QUERY_REL_DEPS_FILE)))
+$(eval $(call query_target,query-test-deps,$(ERLANG_MK_RECURSIVE_TEST_DEPS_LIST),$(TEST_DEPS),$(ERLANG_MK_QUERY_TEST_DEPS_FILE)))
+$(eval $(call query_target,query-shell-deps,$(ERLANG_MK_RECURSIVE_SHELL_DEPS_LIST),$(SHELL_DEPS),$(ERLANG_MK_QUERY_SHELL_DEPS_FILE)))
