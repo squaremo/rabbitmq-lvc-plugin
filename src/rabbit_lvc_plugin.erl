@@ -25,7 +25,8 @@ setup_schema() ->
                          {record_name, cached},
                          {type, set},
                          {disc_copies, [node()]}]),
-    mnesia:wait_for_tables([?LVC_TABLE], 30000),
+    mnesia:add_table_copy(?LVC_TABLE, node(), disc_copies),
+    rabbit_table:wait([?LVC_TABLE]),
     ok.
 
 
