@@ -14,10 +14,14 @@ the last value that was published with each routing key, and when a
 queue is bound, it automatically enqueues the last value for the
 binding key.
 
-
 ## Supported RabbitMQ Versions
 
-This plugin targets RabbitMQ 3.6.0 and later versions.
+The most recent release of this plugin targets RabbitMQ 3.8.x.
+Earlier series are [out of support](https://www.rabbitmq.com/versions.html).
+
+## Supported Erlang/OTP Versions
+
+This plugin [requires Erlang 23.2 or later versions](https://www.rabbitmq.com/which-erlang.html), same as RabbitMQ 3.8.16+.
 
 ## Installation
 
