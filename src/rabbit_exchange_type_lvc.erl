@@ -25,8 +25,8 @@ description() ->
 
 serialise_events() -> false.
 
-route(Exchange = #exchange{name = Name},
-      Delivery = #delivery{message = Msg}) ->
+route(#exchange{name = Name},
+      #delivery{message = Msg}) ->
     #basic_message{routing_keys = RKs} = Msg,
     Keys = case RKs of
                CC when is_list(CC) -> CC;
@@ -39,9 +39,9 @@ route(Exchange = #exchange{name = Name},
                                                     routing_key=K},
                                     content = Msg},
                             write) ||
-                  K <- Keys]
+               K <- Keys]
       end),
-    rabbit_exchange_type_direct:route(Exchange, Delivery).
+    rabbit_router:match_routing_key(Name, RKs).
 
 validate(_X) -> ok.
 validate_binding(_X, _B) -> ok.

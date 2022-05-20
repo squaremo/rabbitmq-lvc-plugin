@@ -22,7 +22,8 @@ groups() ->
     [
      {non_parallel_tests, [], [
                                lvc,
-                               lvc_e2e
+                               lvc_bind_fanout_exchange,
+                               lvc_bind_direct_exchange
                               ]}
     ].
 
@@ -73,10 +74,10 @@ lvc(Config) ->
     expect(Ch, Q2, Payload),
     rabbit_ct_client_helpers:close_channel(Ch).
 
-lvc_e2e(Config) ->
+lvc_bind_fanout_exchange(Config) ->
     Ch = rabbit_ct_client_helpers:open_channel(Config),
     LvcX = <<"test-lvc-exchange">>,
-    X = <<"test-exchange">>,
+    X = <<"test-fanout-exchange">>,
     RK = <<"key1">>,
     Payload = <<"Hello world">>,
     exchange_declare(Ch, LvcX),
@@ -85,6 +86,24 @@ lvc_e2e(Config) ->
     Q2 = queue_declare(Ch),
     bind(Ch, X, <<"">>, Q1),
     bind(Ch, X, <<"">>, Q2),
+    publish(Ch, LvcX, RK, Payload),
+    exchange_bind(Ch, X, RK, LvcX),
+    expect(Ch, Q1, Payload),
+    expect(Ch, Q2, Payload),
+    rabbit_ct_client_helpers:close_channel(Ch).
+
+lvc_bind_direct_exchange(Config) ->
+    Ch = rabbit_ct_client_helpers:open_channel(Config),
+    LvcX = <<"test-lvc-exchange">>,
+    X = <<"test-direct-exchange">>,
+    RK = <<"key1">>,
+    Payload = <<"Hello">>,
+    exchange_declare(Ch, LvcX),
+    exchange_declare(Ch, X, <<"direct">>),
+    Q1 = queue_declare(Ch),
+    Q2 = queue_declare(Ch),
+    bind(Ch, X, RK, Q1),
+    bind(Ch, X, RK, Q2),
     publish(Ch, LvcX, RK, Payload),
     exchange_bind(Ch, X, RK, LvcX),
     expect(Ch, Q1, Payload),
@@ -122,6 +141,9 @@ expect(Ch, Q, Payload) ->
     receive
         {#'basic.deliver'{consumer_tag = CTag}, #amqp_msg{payload = Payload}} ->
             ok
+    after
+        3000 ->
+            ct:fail("Timeout waiting for message from queue ~s", [Q])
     end.
 
 bind(Ch, X, RK, Q) ->
