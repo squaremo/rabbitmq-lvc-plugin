@@ -16,12 +16,12 @@ binding key.
 
 ## Supported RabbitMQ Versions
 
-The most recent release of this plugin targets RabbitMQ 3.8.x.
-Earlier series are [out of support](https://www.rabbitmq.com/versions.html).
+The most recent release of this plugin targets RabbitMQ 3.11.x.
+Release series earlier than 3.9 are [out of support](https://www.rabbitmq.com/versions.html).
 
 ## Supported Erlang/OTP Versions
 
-This plugin [requires Erlang 23.2 or later versions](https://www.rabbitmq.com/which-erlang.html), same as RabbitMQ 3.8.16+.
+Latest version of this plugin [requires Erlang 25.0 or later versions](https://www.rabbitmq.com/which-erlang.html), same as RabbitMQ 3.11.x.
 
 ## Installation
 
@@ -72,7 +72,7 @@ if necessary.
 ### Values v. deltas
 
 One question that springs to mind when considering last value caches
-is "what if I'm sending deltas rather than the whole value?".  Thre
+is "what if I'm sending deltas rather than the whole value?".  The
 LVC exchange doesn't address this use case, but you could do it by
 using two exchanges and posting full values to the LVC (from the
 originating process -- presumably you'd be using deltas to save on
