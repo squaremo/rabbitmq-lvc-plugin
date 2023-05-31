@@ -1,0 +1,3 @@
+rabbitmq-lvc-exchange:
+- rabbit_exchange_type_lvc
+- rabbit_lvc_plugin
