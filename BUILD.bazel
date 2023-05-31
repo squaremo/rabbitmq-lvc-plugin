@@ -5,8 +5,8 @@ load("@rules_erlang//:erlang_app.bzl", "erlang_app", "test_erlang_app")
 load("@rules_erlang//:xref2.bzl", "xref")
 load("@rules_erlang//:dialyze.bzl", "dialyze", "plt")
 load("@rules_erlang//:eunit2.bzl", "eunit")
-load("@rules_erlang//:ct.bzl", "assert_suites2", "ct_test")
 load(":app.bzl", "all_beam_files", "all_srcs", "all_test_beam_files", "test_suite_beam_files")
+load(":helpers.bzl", "rabbitmq_integration_suite")
 load("@rabbitmq-server//:rabbitmq_home.bzl", "rabbitmq_home")
 load("@rabbitmq-server//:rabbitmq_run.bzl", "rabbitmq_run", "rabbitmq_run_command")
 load("@rabbitmq-server//:rabbitmqctl.bzl", "rabbitmqctl")
@@ -16,6 +16,9 @@ load("@rabbitmq-server//:rabbitmqctl.bzl", "rabbitmqctl")
 # gazelle:exclude .erlang.mk
 # gazelle:exclude .vscode
 # gazelle:exclude platforms
+
+# gazelle:erlang_skip_rules ct_test
+
 # gazelle:erlang_generate_beam_files_macro
 # gazelle:erlang_generate_fewer_bytecode_rules
 
@@ -122,6 +125,9 @@ xref(
 
 plt(
     name = "deps_plt",
+    apps = [
+        "mnesia",  # keep
+    ],
     for_target = ":erlang_app",
     plt = "//:base_plt",
 )
@@ -136,15 +142,6 @@ eunit(
     name = "eunit",
     target = ":test_erlang_app",
 )
-
-ct_test(
-    name = "lvc_SUITE",
-    compiled_suites = [":lvc_SUITE_beam_files"],
-    data = glob(["test/lvc_SUITE_data/**/*"]),
-    deps = [":test_erlang_app"],
-)
-
-assert_suites2()
 
 rabbitmq_home(
     name = "broker-home",
@@ -170,4 +167,8 @@ rabbitmq_run_command(
 rabbitmqctl(
     name = "rabbitmqctl",
     home = ":broker-home",
+)
+
+rabbitmq_integration_suite(
+    name = "lvc_SUITE",
 )
