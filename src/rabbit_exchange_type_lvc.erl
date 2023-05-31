@@ -12,7 +12,7 @@
 
 -export([description/0, serialise_events/0, route/2]).
 -export([validate/1, validate_binding/2,
-         create/2, recover/2, delete/3, policy_changed/2,
+         create/2, recover/2, delete/2, policy_changed/2,
          add_binding/3, remove_bindings/3, assert_args_equivalence/2]).
 -export([info/1, info/2]).
 
@@ -32,7 +32,7 @@ route(#exchange{name = Name},
                CC when is_list(CC) -> CC;
                To                 -> [To]
            end,
-    rabbit_misc:execute_mnesia_transaction(
+    rabbit_mnesia:execute_mnesia_transaction(
       fun () ->
               [mnesia:write(?LVC_TABLE,
                             #cached{key = #cachekey{exchange=Name,
@@ -45,18 +45,21 @@ route(#exchange{name = Name},
 
 validate(_X) -> ok.
 validate_binding(_X, _B) -> ok.
-create(_Tx, _X) -> ok.
+create(_Serial, _X) -> ok.
 recover(_X, _Bs) -> ok.
 
-delete(transaction, #exchange{ name = Name }, _Bs) ->
-    [mnesia:delete(?LVC_TABLE, K, write) ||
-        #cached{ key = K } <-
-            mnesia:match_object(?LVC_TABLE,
-                                #cached{key = #cachekey{
-                                          exchange = Name, _ = '_' },
-                                        _ = '_'}, write)],
+delete(none, #exchange{ name = Name }) ->
+    rabbit_mnesia:execute_mnesia_transaction(
+      fun() ->
+              [mnesia:delete(?LVC_TABLE, K, write) ||
+               #cached{ key = K } <-
+               mnesia:match_object(?LVC_TABLE,
+                                   #cached{key = #cachekey{
+                                                    exchange = Name, _ = '_' },
+                                           _ = '_'}, write)]
+      end),
     ok;
-delete(_Tx, _X, _Bs) ->
+delete(_Serial, _X) ->
 	ok.
 
 policy_changed(_X1, _X2) -> ok.
@@ -85,7 +88,7 @@ add_binding(none, #exchange{ name = XName },
                     [#cached{content = Msg}] ->
                         Delivery = rabbit_basic:delivery(
                           false, false, Msg, undefined),
-                        Qs = rabbit_amqqueue:lookup(
+                        Qs = rabbit_amqqueue:lookup_many(
                           rabbit_exchange:route(E, Delivery)),
                         rabbit_amqqueue:deliver(Qs, Delivery)
                 end
@@ -105,10 +108,10 @@ add_binding(none, #exchange{ name = XName },
             end
     end,
     ok;
-add_binding(_Tx, _X, _B) ->
+add_binding(_Serial, _X, _B) ->
     ok.
 
-remove_bindings(_Tx, _X, _Bs) -> ok.
+remove_bindings(_Serial, _X, _Bs) -> ok.
 
 assert_args_equivalence(X, Args) ->
     rabbit_exchange_type_direct:assert_args_equivalence(X, Args).

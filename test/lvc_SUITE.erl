@@ -72,6 +72,7 @@ lvc(Config) ->
     bind(Ch, X, RK, Q2),
     expect(Ch, Q1, Payload),
     expect(Ch, Q2, Payload),
+    exchange_delete(Ch, X),
     rabbit_ct_client_helpers:close_channel(Ch).
 
 lvc_bind_fanout_exchange(Config) ->
@@ -90,6 +91,7 @@ lvc_bind_fanout_exchange(Config) ->
     exchange_bind(Ch, X, RK, LvcX),
     expect(Ch, Q1, Payload),
     expect(Ch, Q2, Payload),
+    exchange_delete(Ch, X),
     rabbit_ct_client_helpers:close_channel(Ch).
 
 lvc_bind_direct_exchange(Config) ->
@@ -108,6 +110,7 @@ lvc_bind_direct_exchange(Config) ->
     exchange_bind(Ch, X, RK, LvcX),
     expect(Ch, Q1, Payload),
     expect(Ch, Q2, Payload),
+    exchange_delete(Ch, X),
     rabbit_ct_client_helpers:close_channel(Ch).
 
 
@@ -117,13 +120,15 @@ lvc_bind_direct_exchange(Config) ->
 
 exchange_declare(Ch, X) ->
     amqp_channel:call(Ch, #'exchange.declare'{exchange    = X,
-                                              type        = <<"x-lvc">>,
-                                              auto_delete = true}).
+                                              type        = <<"x-lvc">>}).
 
 exchange_declare(Ch, X, Type) ->
     amqp_channel:call(Ch, #'exchange.declare'{exchange    = X,
                                               type        = Type,
                                               auto_delete = true}).
+
+exchange_delete(Ch, X) ->
+    #'exchange.delete_ok'{} = amqp_channel:call(Ch, #'exchange.delete'{exchange = X}).
 
 queue_declare(Ch) ->
     #'queue.declare_ok'{queue = Q} =

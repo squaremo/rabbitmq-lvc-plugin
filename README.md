@@ -16,12 +16,11 @@ binding key.
 
 ## Supported RabbitMQ Versions
 
-The most recent release of this plugin targets RabbitMQ 3.11.x.
-Release series earlier than 3.9 are [out of support](https://www.rabbitmq.com/versions.html).
+The most recent release of this plugin targets RabbitMQ 3.12.x.
 
 ## Supported Erlang/OTP Versions
 
-Latest version of this plugin [requires Erlang 25.0 or later versions](https://www.rabbitmq.com/which-erlang.html), same as RabbitMQ 3.11.x.
+Latest version of this plugin [requires Erlang 25.0 or later versions](https://www.rabbitmq.com/which-erlang.html), same as RabbitMQ 3.12.x.
 
 ## Installation
 
