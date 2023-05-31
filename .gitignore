@@ -15,3 +15,8 @@
 /sbin.lock
 
 /rabbitmq_lvc_exchange.d
+
+/user.bazelrc
+/bazel-*
+
+/.vscode/

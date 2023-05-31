@@ -1,0 +1,27 @@
+load("@bazel_gazelle//:def.bzl", "gazelle")
+load("@rules_erlang//gazelle:def.bzl", "GAZELLE_ERLANG_RUNTIME_DEPS")
+
+# gazelle:exclude .github
+# gazelle:exclude .elixir_ls
+# gazelle:exclude .erlang.mk
+# gazelle:exclude .vscode
+# gazelle:exclude platforms
+# gazelle:erlang_generate_beam_files_macro
+# gazelle:erlang_generate_fewer_bytecode_rules
+
+# gazelle:erlang_resolve amqp_client @rabbitmq-server//deps/amqp_client:erlang_app
+# gazelle:erlang_resolve amqp10_client @rabbitmq-server//deps/amqp10_client:erlang_app
+# gazelle:erlang_resolve rabbit @rabbitmq-server//deps/rabbit:erlang_app
+# gazelle:erlang_resolve rabbit_common @rabbitmq-server//deps/rabbit_common:erlang_app
+# gazelle:erlang_resolve rabbitmq_amqp1_0 @rabbitmq-server//deps/rabbitmq_amqp1_0:erlang_app
+# gazelle:erlang_resolve rabbitmq_cli @rabbitmq-server//deps/rabbitmq_cli:erlang_app
+# gazelle:erlang_resolve rabbitmq_ct_helpers @rabbitmq-server//deps/rabbitmq_ct_helpers:erlang_app
+
+gazelle(
+    name = "gazelle",
+    data = GAZELLE_ERLANG_RUNTIME_DEPS,
+    extra_args = [
+        "--verbose",
+    ],
+    gazelle = "@rules_erlang//gazelle:gazelle_erlang_binary",
+)
