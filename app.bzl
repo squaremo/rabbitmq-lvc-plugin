@@ -12,9 +12,7 @@ def all_srcs(name = "all_srcs"):
     filegroup(name = "private_hdrs")
     filegroup(
         name = "public_hdrs",
-        srcs = [
-            "include/rabbit_lvc_plugin.hrl",
-        ],
+        srcs = ["include/rabbit_lvc_plugin.hrl"],
     )
     filegroup(name = "priv")
     filegroup(

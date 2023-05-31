@@ -5,6 +5,7 @@ load("@rules_erlang//:erlang_app.bzl", "erlang_app", "test_erlang_app")
 load("@rules_erlang//:xref2.bzl", "xref")
 load("@rules_erlang//:dialyze.bzl", "dialyze", "plt")
 load("@rules_erlang//:eunit2.bzl", "eunit")
+load("@rules_erlang//:ct.bzl", "assert_suites2")
 load(":app.bzl", "all_beam_files", "all_srcs", "all_test_beam_files", "test_suite_beam_files")
 load(":helpers.bzl", "rabbitmq_integration_suite")
 load("@rabbitmq-server//:rabbitmq_home.bzl", "rabbitmq_home")
@@ -86,8 +87,8 @@ erlang_app(
     name = "erlang_app",
     srcs = [":all_srcs"],
     hdrs = [":public_hdrs"],
-    app_name = "rabbitmq-lvc-exchange",
     app_description = "RabbitMQ Last Value Cache exchange",
+    app_name = "rabbitmq-lvc-exchange",
     app_version = module_version(),
     beam_files = [":beam_files"],
     license_files = [":license_files"],
@@ -172,3 +173,5 @@ rabbitmqctl(
 rabbitmq_integration_suite(
     name = "lvc_SUITE",
 )
+
+assert_suites2()
