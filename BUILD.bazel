@@ -6,6 +6,7 @@ load("@rules_erlang//:xref2.bzl", "xref")
 load("@rules_erlang//:dialyze.bzl", "dialyze", "plt")
 load("@rules_erlang//:eunit2.bzl", "eunit")
 load("@rules_erlang//:ct.bzl", "assert_suites2")
+load("@rules_erlang//:ez.bzl", "ez")
 load(":app.bzl", "all_beam_files", "all_srcs", "all_test_beam_files", "test_suite_beam_files")
 load(":helpers.bzl", "rabbitmq_integration_suite")
 load("@rabbitmq-server//:rabbitmq_home.bzl", "rabbitmq_home")
@@ -175,3 +176,8 @@ rabbitmq_integration_suite(
 )
 
 assert_suites2()
+
+ez(
+    name = "ez",
+    app = ":erlang_app",
+)
