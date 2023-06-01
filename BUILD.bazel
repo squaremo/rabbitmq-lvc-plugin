@@ -1,5 +1,6 @@
 load("@bazel_gazelle//:def.bzl", "gazelle")
 load("@rules_erlang//gazelle:def.bzl", "GAZELLE_ERLANG_RUNTIME_DEPS")
+load("@rules_erlang//gazelle:moduleindex.bzl", "moduleindex")
 load("@rules_erlang//:erlang_bytecode2.bzl", "erlc_opts")
 load("@rules_erlang//:erlang_app.bzl", "erlang_app", "test_erlang_app")
 load("@rules_erlang//:xref2.bzl", "xref")
@@ -39,6 +40,15 @@ gazelle(
         "--verbose",
     ],
     gazelle = "@rules_erlang//gazelle:gazelle_erlang_binary",
+)
+
+moduleindex(
+    name = "moduleindex",
+    testonly = True,
+    apps = [
+        "@rabbitmq-server//deps/rabbit:erlang_app",
+    ],
+    tags = ["manual"],
 )
 
 erlc_opts(
