@@ -37,6 +37,8 @@ gazelle(
     name = "gazelle",
     data = GAZELLE_ERLANG_RUNTIME_DEPS,
     extra_args = [
+        "--app_name",
+        module_name(),
         "--verbose",
     ],
     gazelle = "@rules_erlang//gazelle:gazelle_erlang_binary",
@@ -100,7 +102,7 @@ erlang_app(
     hdrs = [":public_hdrs"],
     app_description = "RabbitMQ Last Value Cache exchange",
     app_extra_keys = BROKER_VERSION_REQUIREMENTS_TERM,
-    app_name = module_name(),
+    app_name = "rabbitmq_lvc_exchange",
     app_version = module_version(),
     beam_files = [":beam_files"],
     license_files = [":license_files"],
@@ -112,7 +114,7 @@ erlang_app(
 )
 
 alias(
-    name = module_name(),
+    name = "rabbitmq_lvc_exchange",
     actual = ":erlang_app",
     visibility = ["//visibility:public"],
 )
@@ -121,7 +123,7 @@ test_erlang_app(
     name = "test_erlang_app",
     srcs = [":all_srcs"],
     hdrs = [":public_and_private_hdrs"],
-    app_name = module_name(),
+    app_name = "rabbitmq_lvc_exchange",
     beam_files = [":test_beam_files"],
     license_files = [":license_files"],
     priv = [":priv"],
