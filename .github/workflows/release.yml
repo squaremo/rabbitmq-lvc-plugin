@@ -38,6 +38,11 @@ jobs:
         EOF
 
         bazelisk info release
+    - name: TEST
+      run: |
+        bazelisk test //... \
+          --config=rbe-${{ matrix.bazel_otp_name }} \
+          --verbose_failures
     - name: BUILD EZ
       run: |
         bazelisk build :ez \
@@ -51,6 +56,7 @@ jobs:
         if-no-files-found: error
 
   release:
+    needs: build-artifacts
     runs-on: ubuntu-latest
     steps:
     - name: CHECKOUT
