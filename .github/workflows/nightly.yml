@@ -47,7 +47,10 @@ jobs:
       run: |
         sudo npm install --global --silent @bazel/buildozer
 
-        echo "$(cat MODULE.bazel | buildozer 'set strip_prefix "rabbitmq-server-${{ matrix.branch }}"' -:%archive_override)" > MODULE.bazel
+        branch="${{ matrix.branch }}"
+        version="${branch#v}"
+
+        echo "$(cat MODULE.bazel | buildozer 'set strip_prefix "rabbitmq-server-'${version}'"' -:%archive_override)" > MODULE.bazel
         echo "$(cat MODULE.bazel | buildozer 'set urls ["https://github.com/rabbitmq/rabbitmq-server/archive/refs/heads/${{ matrix.branch }}.zip"]' -:%archive_override)" > MODULE.bazel
 
         git diff
