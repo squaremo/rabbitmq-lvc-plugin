@@ -56,6 +56,12 @@ jobs:
         EOF
 
         bazelisk info release
+    - name: CHECK OTP VERSION USED IN RBE
+      id: load-info
+      run: |
+        bazelisk build @rabbitmq-server//:otp_version \
+          --config=rbe-${BAZEL_OTP_NAME}
+        echo "otp=$(cat bazel-bin/external/rabbitmq-server~override/otp_version.txt)" | tee -a $GITHUB_OUTPUT
     - name: TEST
       run: |
         bazelisk test //... \
@@ -90,4 +96,6 @@ jobs:
         body: |
           ${{ inputs.plugin_name }} ${{ github.ref_name }}
 
-          Built against rabbitmq-server ${{ steps.versions.outputs.rmq_urls }}
+          Built against:
+            rabbitmq-server ${{ steps.versions.outputs.rmq_urls }}
+            OTP ${{ steps.load-info.outputs.otp }}
