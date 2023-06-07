@@ -5,7 +5,7 @@ on:
     - v3.*
 jobs:
   release:
-    uses: ./.github/workflows/plugin-release.yml
+    uses: rabbitmq/rabbitmq-lvc-exchange/.github/workflows/plugin-release.yml@main
     with:
       bazel_otp_name: 25
       plugin_name: rabbitmq_lvc_exchange

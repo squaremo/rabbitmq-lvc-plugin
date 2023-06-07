@@ -14,7 +14,7 @@ jobs:
         bazel_otp_name:
         - "25"
         - "26"
-    uses: ./.github/workflows/bazel-test.yml
+    uses: rabbitmq/rabbitmq-lvc-exchange/.github/workflows/bazel-test.yml@main
     with:
       bazel_otp_name: ${{ matrix.bazel_otp_name }}
   summary:
