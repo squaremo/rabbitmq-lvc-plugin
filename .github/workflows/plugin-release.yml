@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: CHECKOUT
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
     - name: ASSERT VERSION
       id: versions
       env:
@@ -34,7 +34,7 @@ jobs:
         rmq_urls="$(cat MODULE.bazel | buildozer 'print urls' -:%archive_override)"
         echo "rmq_urls=${rmq_urls}" | tee -a $GITHUB_OUTPUT
     - name: MOUNT BAZEL CACHE
-      uses: actions/cache@v3.3.1
+      uses: actions/cache@v4
       with:
         path: "/home/runner/repo-cache/"
         key: ${{ runner.os }}-repo-cache-${{ hashFiles('MODULE.bazel','WORKSPACE.bazel') }}
@@ -79,14 +79,14 @@ jobs:
         echo "path=${path}" | tee -a $GITHUB_OUTPUT
         cp bazel-bin/${{ inputs.plugin_name }}.ez ${path}
     - name: UPLOAD EZ
-      uses: actions/upload-artifact@v3.1.2
+      uses: actions/upload-artifact@v4
       with:
         name: ${{ steps.artifact.outputs.path }}
         path: ${{ steps.artifact.outputs.path }}
         if-no-files-found: error
     - name: CREATE RELEASE
       id: create-release
-      uses: ncipollo/release-action@v1.12.0
+      uses: ncipollo/release-action@v1
       with:
         allowUpdates: true
         draft: true
